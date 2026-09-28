@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Nuclear Plant</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <style>
+        /* QKD */
+        .qkd-panel {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .qkd-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .qkd-status.secure {
+            background: rgba(34, 197, 94, 0.12);
+            color: #22c55e;
+        }
+
+        .qkd-status.compromised {
+            background: rgba(239, 68, 68, 0.14);
+            color: #ef4444;
+        }
+
+        .qkd-status.unknown {
+            background: rgba(148, 163, 184, 0.12);
+            color: #94a3b8;
+        }
+
+        .qkd-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(120px, 1fr));
+            gap: 12px;
+        }
+
+        .qkd-metric {
+            padding: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 8px;
+        }
+
+        .qkd-metric span {
+            display: block;
+            font-size: 0.72rem;
+            opacity: 0.7;
+            margin-bottom: 6px;
+        }
+
+        .qkd-metric strong {
+            font-size: 1.05rem;
+        }
+
+        .qkd-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .qkd-actions button {
+            padding: 9px 14px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 6px;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .qkd-actions button:hover {
+            background: rgba(148, 163, 184, 0.08);
+        }
+
+        .qkd-message {
+            min-height: 20px;
+            margin-top: 10px;
+            font-size: 0.82rem;
+            opacity: 0.75;
+        }
+
+        /* ALERTAS DE PLANTA */
+        .plant-alerts {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .plant-alert {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 14px;
+            align-items: center;
+            padding: 13px 15px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 8px;
+        }
+
+        .plant-alert.critical {
+            border-color: rgba(239, 68, 68, 0.45);
+        }
+
+        .plant-alert.warning {
+            border-color: rgba(245, 158, 11, 0.45);
+        }
+
+        .plant-alert-info strong,
+        .plant-alert-info span {
+            display: block;
+        }
+
+        .plant-alert-info span {
+            margin-top: 3px;
+            font-size: 0.78rem;
+            opacity: 0.68;
+        }
+
+        .plant-alert-severity {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+        }
+
+        .plant-alert-time {
+            font-size: 0.72rem;
+            opacity: 0.6;
+            white-space: nowrap;
+        }
+
+        .plant-alert-empty {
+            padding: 18px;
+            text-align: center;
+            opacity: 0.55;
+            border: 1px dashed rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .qkd-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .qkd-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .plant-alert {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+    <header class="topbar">
+
+        <div class="topbar-title">
+
+            <h1>Nuclear Plant SCADA</h1>
+
+        </div>
+
+
+        <nav class="main-navigation">
+
+            <a href="/">
+                Infrastructure
+            </a>
+
+            <a
+                href="/plant"
+                class="active"
+            >
+                Nuclear Plant
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main class="container">
+
+        <!-- AQUÍ VAN LOS ELEMENTOS DE LA PLANTA -->
+
+        <section class="plant-section">
+
+            <div class="section-title">
+
+                <h2>Nuclear Plant</h2>
+
+                <span id="plant-status">
+                    Loading...
+                </span>
+
+            </div>
+
+
+            <!-- REACTOR -->
+
+            <div class="reactor-panel">
+
+                <div class="reactor-header">
+
+                    <div>
+
+                        <h3 id="reactor-name">
+                            REACTOR-01
+                        </h3>
+
+                        <span>
+                            Reactor Core
+                        </span>
+
+                    </div>
+
+                    <span
+                        id="reactor-status"
+                        class="plant-status normal"
+                    >
+                        NORMAL
+                    </span>
+
+                </div>
+
+
+                <div class="reactor-metrics">
+
+                    <div class="reactor-metric">
+
+                        <span>
+                            TEMPERATURE
+                        </span>
+
+                        <strong id="reactor-temperature">
+                            0 °C
+                        </strong>
+
+                    </div>
+
+
+                    <div class="reactor-metric">
+
+                        <span>
+                            PRESSURE
+                        </span>
+
+                        <strong id="reactor-pressure">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="reactor-metric">
+
+                        <span>
+                            COOLANT FLOW
+                        </span>
+
+                        <strong id="reactor-flow">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="reactor-metric">
+
+                        <span>
+                            POWER
+                        </span>
+
+                        <strong id="reactor-power">
+                            0 %
+                        </strong>
+
+                    </div>
+
+
+                    <div class="reactor-metric">
+
+                        <span>
+                            WATER LEVEL
+                        </span>
+
+                        <strong id="reactor-level">
+                            0 %
+                        </strong>
+
+                    </div>
+
+
+                    <div class="reactor-metric">
+
+                        <span>
+                            RADIATION
+                        </span>
+
+                        <strong id="reactor-radiation">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ======================================== -->
+            <!-- PROCESS HISTORY -->
+            <!-- ======================================== -->
+
+            <div class="plant-subsection">
+
+                <div class="section-title">
+
+                    <h3>Process History</h3>
+
+                    <span>
+                        Last 60 seconds
+                    </span>
+
+                </div>
+
+
+                <div class="plant-charts">
+
+                    <div class="plant-chart">
+
+                        <div class="chart-header">
+
+                            <span>
+                                TEMPERATURE
+                            </span>
+
+                            <strong id="chart-temperature-value">
+                                0 °C
+                            </strong>
+
+                        </div>
+
+
+                        <canvas
+                            id="temperature-chart"
+                        ></canvas>
+
+                    </div>
+
+
+                    <div class="plant-chart">
+
+                        <div class="chart-header">
+
+                            <span>
+                                POWER
+                            </span>
+
+                            <strong id="chart-power-value">
+                                0 %
+                            </strong>
+
+                        </div>
+
+
+                        <canvas
+                            id="power-chart"
+                        ></canvas>
+
+                    </div>
+
+
+                    <div class="plant-chart">
+
+                        <div class="chart-header">
+
+                            <span>
+                                COOLANT FLOW
+                            </span>
+
+                            <strong id="chart-flow-value">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <canvas
+                            id="flow-chart"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ======================================== -->
+            <!-- CONTROL SYSTEM -->
+            <!-- ======================================== -->
+
+            <div class="plant-subsection">
+
+                <div class="section-title">
+
+                    <h3>
+                        Control System
+                    </h3>
+
+                </div>
+
+
+                <div class="plant-device">
+
+                    <div>
+
+                        <strong>
+                            PLC-01
+                        </strong>
+
+                        <span>
+                            Reactor controller
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <span id="controller-mode">
+                            AUTO
+                        </span>
+
+                    </div>
+
+
+                    <span
+                        id="controller-status"
+                        class="device-status normal"
+                    >
+                        ● NORMAL
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ======================================== -->
+            <!-- QKD SECURITY -->
+            <!-- ======================================== -->
+
+            <div class="plant-subsection">
+                <div class="section-title">
+                    <h3>QKD Security</h3>
+                    <span>BB84 simulation</span>
+                </div>
+
+                <div class="qkd-panel">
+                    <div>
+                        <span id="qkd-status" class="qkd-status unknown">
+                            ● UNKNOWN
+                        </span>
+
+                        <div class="qkd-metrics" style="margin-top: 16px;">
+                            <div class="qkd-metric">
+                                <span>QBER</span>
+                                <strong id="qkd-qber">0.0 %</strong>
+                            </div>
+
+                            <div class="qkd-metric">
+                                <span>THRESHOLD</span>
+                                <strong id="qkd-threshold">0.0 %</strong>
+                            </div>
+
+                            <div class="qkd-metric">
+                                <span>KEY LENGTH</span>
+                                <strong id="qkd-key-length">0 bits</strong>
+                            </div>
+
+                            <div class="qkd-metric">
+                                <span>EVE</span>
+                                <strong id="qkd-eve">NO</strong>
+                            </div>
+                        </div>
+
+                        <div id="qkd-message" class="qkd-message">
+                            Waiting for QKD session...
+                        </div>
+                    </div>
+
+                    <div class="qkd-actions">
+                        <button type="button" onclick="runQKDSession(false)">
+                            Run secure session
+                        </button>
+                        <button type="button" onclick="runQKDSession(true)">
+                            Simulate Eve
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="plant-subsection">
+
+            <div class="section-title">
+                <h3>Security Controller</h3>
+                <span>OT Security Response</span>
+            </div>
+
+            <div class="plant-device">
+
+                <div>
+                    <strong id="security-controller-status">
+                        NORMAL
+                    </strong>
+
+                    <span>
+                        Security state
+                    </span>
+                </div>
+
+                <div>
+                    <strong id="security-channel-status">
+                        SECURE
+                    </strong>
+
+                    <span>
+                        QKD channel
+                    </span>
+                </div>
+
+                <span
+                    id="security-last-action"
+                    class="device-status normal"
+                >
+                    ● SYSTEM READY
+                </span>
+
+            </div>
+
+        </div>
+
+
+            <!-- ======================================== -->
+            <!-- PLANT ALERTS -->
+            <!-- ======================================== -->
+
+            <div class="plant-subsection">
+                <div class="section-title">
+                    <h3>Plant Security Alerts</h3>
+                    <span id="plant-alert-count">0 events</span>
+                </div>
+
+                <div id="plant-alerts" class="plant-alerts">
+                    <div class="plant-alert-empty">
+                        No plant security alerts.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======================================== -->
+            <!-- SENSORS -->
+            <!-- ======================================== -->
+
+            <div class="plant-subsection">
+
+                <div class="section-title">
+
+                    <h3>
+                        Sensors
+                    </h3>
+
+                </div>
+
+
+                <div
+                    id="plant-sensors"
+                    class="plant-devices"
+                ></div>
+
+            </div>
+
+
+            <!-- ======================================== -->
+            <!-- ACTUATORS -->
+            <!-- ======================================== -->
+
+            <div class="plant-subsection">
+
+                <div class="section-title">
+
+                    <h3>
+                        Actuators
+                    </h3>
+
+                </div>
+
+
+                <div
+                    id="plant-actuators"
+                    class="plant-devices"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+{% if session.get("role") == "ADMIN" %}
+
+<a href="/admin/users">
+    👥 Users
+</a>
+
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{{ url_for('static', filename='plant.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,1075 @@
+{
+  "nombre": "Catálogo de elementos químicos para StellarLab",
+  "version": "1.0",
+  "idioma": "es",
+  "descripcion": "Catálogo de los 118 elementos químicos para selección y composición personalizada de estrellas y planetas. No contiene abundancias estelares universales.",
+  "referencias": [
+    "https://iupac.org/what-we-do/periodic-table-of-elements/",
+    "https://iupac.qmul.ac.uk/AtWt/table.html"
+  ],
+  "nota_uso": "Guardar aparte la abundancia introducida por el usuario. Validar porcentajes >= 0 y suma 100. La etiqueta de presencia estelar es orientativa, no una predicción.",
+  "elementos": [
+    {
+      "Z": 1,
+      "simbolo": "H",
+      "nombre_es": "Hidrógeno",
+      "masa_atomica_u_aprox": 1.008,
+      "categoria": "No metal",
+      "presencia_estelar_general": "principal",
+      "nota_astrofisica": "Componentes dominantes de muchas estrellas; la abundancia depende de la estrella y su evolución."
+    },
+    {
+      "Z": 2,
+      "simbolo": "He",
+      "nombre_es": "Helio",
+      "masa_atomica_u_aprox": 4.0026,
+      "categoria": "Gas noble",
+      "presencia_estelar_general": "principal",
+      "nota_astrofisica": "Componentes dominantes de muchas estrellas; la abundancia depende de la estrella y su evolución."
+    },
+    {
+      "Z": 3,
+      "simbolo": "Li",
+      "nombre_es": "Litio",
+      "masa_atomica_u_aprox": 6.94,
+      "categoria": "Metal alcalino",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 4,
+      "simbolo": "Be",
+      "nombre_es": "Berilio",
+      "masa_atomica_u_aprox": 9.0122,
+      "categoria": "Metal alcalinotérreo",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 5,
+      "simbolo": "B",
+      "nombre_es": "Boro",
+      "masa_atomica_u_aprox": 10.81,
+      "categoria": "Metaloide",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 6,
+      "simbolo": "C",
+      "nombre_es": "Carbono",
+      "masa_atomica_u_aprox": 12.011,
+      "categoria": "No metal",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 7,
+      "simbolo": "N",
+      "nombre_es": "Nitrógeno",
+      "masa_atomica_u_aprox": 14.007,
+      "categoria": "No metal",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 8,
+      "simbolo": "O",
+      "nombre_es": "Oxígeno",
+      "masa_atomica_u_aprox": 15.999,
+      "categoria": "No metal",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 9,
+      "simbolo": "F",
+      "nombre_es": "Flúor",
+      "masa_atomica_u_aprox": 18.998,
+      "categoria": "Halógeno",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 10,
+      "simbolo": "Ne",
+      "nombre_es": "Neón",
+      "masa_atomica_u_aprox": 20.18,
+      "categoria": "Gas noble",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 11,
+      "simbolo": "Na",
+      "nombre_es": "Sodio",
+      "masa_atomica_u_aprox": 22.99,
+      "categoria": "Metal alcalino",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 12,
+      "simbolo": "Mg",
+      "nombre_es": "Magnesio",
+      "masa_atomica_u_aprox": 24.305,
+      "categoria": "Metal alcalinotérreo",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 13,
+      "simbolo": "Al",
+      "nombre_es": "Aluminio",
+      "masa_atomica_u_aprox": 26.982,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 14,
+      "simbolo": "Si",
+      "nombre_es": "Silicio",
+      "masa_atomica_u_aprox": 28.085,
+      "categoria": "Metaloide",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 15,
+      "simbolo": "P",
+      "nombre_es": "Fósforo",
+      "masa_atomica_u_aprox": 30.974,
+      "categoria": "No metal",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 16,
+      "simbolo": "S",
+      "nombre_es": "Azufre",
+      "masa_atomica_u_aprox": 32.06,
+      "categoria": "No metal",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 17,
+      "simbolo": "Cl",
+      "nombre_es": "Cloro",
+      "masa_atomica_u_aprox": 35.45,
+      "categoria": "Halógeno",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 18,
+      "simbolo": "Ar",
+      "nombre_es": "Argón",
+      "masa_atomica_u_aprox": 39.948,
+      "categoria": "Gas noble",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 19,
+      "simbolo": "K",
+      "nombre_es": "Potasio",
+      "masa_atomica_u_aprox": 39.098,
+      "categoria": "Metal alcalino",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 20,
+      "simbolo": "Ca",
+      "nombre_es": "Calcio",
+      "masa_atomica_u_aprox": 40.078,
+      "categoria": "Metal alcalinotérreo",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 21,
+      "simbolo": "Sc",
+      "nombre_es": "Escandio",
+      "masa_atomica_u_aprox": 44.956,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 22,
+      "simbolo": "Ti",
+      "nombre_es": "Titanio",
+      "masa_atomica_u_aprox": 47.867,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 23,
+      "simbolo": "V",
+      "nombre_es": "Vanadio",
+      "masa_atomica_u_aprox": 50.942,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 24,
+      "simbolo": "Cr",
+      "nombre_es": "Cromo",
+      "masa_atomica_u_aprox": 51.996,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 25,
+      "simbolo": "Mn",
+      "nombre_es": "Manganeso",
+      "masa_atomica_u_aprox": 54.938,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 26,
+      "simbolo": "Fe",
+      "nombre_es": "Hierro",
+      "masa_atomica_u_aprox": 55.845,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "natural_variable",
+      "nota_astrofisica": "Puede aparecer en material estelar; abundancia variable según metalicidad, evolución y entorno."
+    },
+    {
+      "Z": 27,
+      "simbolo": "Co",
+      "nombre_es": "Cobalto",
+      "masa_atomica_u_aprox": 58.933,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 28,
+      "simbolo": "Ni",
+      "nombre_es": "Níquel",
+      "masa_atomica_u_aprox": 58.693,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 29,
+      "simbolo": "Cu",
+      "nombre_es": "Cobre",
+      "masa_atomica_u_aprox": 63.546,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 30,
+      "simbolo": "Zn",
+      "nombre_es": "Zinc",
+      "masa_atomica_u_aprox": 65.38,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 31,
+      "simbolo": "Ga",
+      "nombre_es": "Galio",
+      "masa_atomica_u_aprox": 69.723,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 32,
+      "simbolo": "Ge",
+      "nombre_es": "Germanio",
+      "masa_atomica_u_aprox": 72.63,
+      "categoria": "Metaloide",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 33,
+      "simbolo": "As",
+      "nombre_es": "Arsénico",
+      "masa_atomica_u_aprox": 74.922,
+      "categoria": "Metaloide",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 34,
+      "simbolo": "Se",
+      "nombre_es": "Selenio",
+      "masa_atomica_u_aprox": 78.971,
+      "categoria": "No metal",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 35,
+      "simbolo": "Br",
+      "nombre_es": "Bromo",
+      "masa_atomica_u_aprox": 79.904,
+      "categoria": "Halógeno",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 36,
+      "simbolo": "Kr",
+      "nombre_es": "Kriptón",
+      "masa_atomica_u_aprox": 83.798,
+      "categoria": "Gas noble",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 37,
+      "simbolo": "Rb",
+      "nombre_es": "Rubidio",
+      "masa_atomica_u_aprox": 85.468,
+      "categoria": "Metal alcalino",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 38,
+      "simbolo": "Sr",
+      "nombre_es": "Estroncio",
+      "masa_atomica_u_aprox": 87.62,
+      "categoria": "Metal alcalinotérreo",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 39,
+      "simbolo": "Y",
+      "nombre_es": "Itrio",
+      "masa_atomica_u_aprox": 88.906,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 40,
+      "simbolo": "Zr",
+      "nombre_es": "Circonio",
+      "masa_atomica_u_aprox": 91.224,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 41,
+      "simbolo": "Nb",
+      "nombre_es": "Niobio",
+      "masa_atomica_u_aprox": 92.906,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 42,
+      "simbolo": "Mo",
+      "nombre_es": "Molibdeno",
+      "masa_atomica_u_aprox": 95.95,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 43,
+      "simbolo": "Tc",
+      "nombre_es": "Tecnecio",
+      "masa_atomica_u_aprox": 98.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 44,
+      "simbolo": "Ru",
+      "nombre_es": "Rutenio",
+      "masa_atomica_u_aprox": 101.07,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 45,
+      "simbolo": "Rh",
+      "nombre_es": "Rodio",
+      "masa_atomica_u_aprox": 102.906,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 46,
+      "simbolo": "Pd",
+      "nombre_es": "Paladio",
+      "masa_atomica_u_aprox": 106.42,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 47,
+      "simbolo": "Ag",
+      "nombre_es": "Plata",
+      "masa_atomica_u_aprox": 107.868,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 48,
+      "simbolo": "Cd",
+      "nombre_es": "Cadmio",
+      "masa_atomica_u_aprox": 112.414,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 49,
+      "simbolo": "In",
+      "nombre_es": "Indio",
+      "masa_atomica_u_aprox": 114.818,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 50,
+      "simbolo": "Sn",
+      "nombre_es": "Estaño",
+      "masa_atomica_u_aprox": 118.71,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 51,
+      "simbolo": "Sb",
+      "nombre_es": "Antimonio",
+      "masa_atomica_u_aprox": 121.76,
+      "categoria": "Metaloide",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 52,
+      "simbolo": "Te",
+      "nombre_es": "Telurio",
+      "masa_atomica_u_aprox": 127.6,
+      "categoria": "Metaloide",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 53,
+      "simbolo": "I",
+      "nombre_es": "Yodo",
+      "masa_atomica_u_aprox": 126.904,
+      "categoria": "Halógeno",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 54,
+      "simbolo": "Xe",
+      "nombre_es": "Xenón",
+      "masa_atomica_u_aprox": 131.293,
+      "categoria": "Gas noble",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 55,
+      "simbolo": "Cs",
+      "nombre_es": "Cesio",
+      "masa_atomica_u_aprox": 132.905,
+      "categoria": "Metal alcalino",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 56,
+      "simbolo": "Ba",
+      "nombre_es": "Bario",
+      "masa_atomica_u_aprox": 137.327,
+      "categoria": "Metal alcalinotérreo",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 57,
+      "simbolo": "La",
+      "nombre_es": "Lantano",
+      "masa_atomica_u_aprox": 138.905,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 58,
+      "simbolo": "Ce",
+      "nombre_es": "Cerio",
+      "masa_atomica_u_aprox": 140.116,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 59,
+      "simbolo": "Pr",
+      "nombre_es": "Praseodimio",
+      "masa_atomica_u_aprox": 140.908,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 60,
+      "simbolo": "Nd",
+      "nombre_es": "Neodimio",
+      "masa_atomica_u_aprox": 144.242,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 61,
+      "simbolo": "Pm",
+      "nombre_es": "Prometio",
+      "masa_atomica_u_aprox": 145.0,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 62,
+      "simbolo": "Sm",
+      "nombre_es": "Samario",
+      "masa_atomica_u_aprox": 150.36,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 63,
+      "simbolo": "Eu",
+      "nombre_es": "Europio",
+      "masa_atomica_u_aprox": 151.964,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 64,
+      "simbolo": "Gd",
+      "nombre_es": "Gadolinio",
+      "masa_atomica_u_aprox": 157.25,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 65,
+      "simbolo": "Tb",
+      "nombre_es": "Terbio",
+      "masa_atomica_u_aprox": 158.925,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 66,
+      "simbolo": "Dy",
+      "nombre_es": "Disprosio",
+      "masa_atomica_u_aprox": 162.5,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 67,
+      "simbolo": "Ho",
+      "nombre_es": "Holmio",
+      "masa_atomica_u_aprox": 164.93,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 68,
+      "simbolo": "Er",
+      "nombre_es": "Erbio",
+      "masa_atomica_u_aprox": 167.259,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 69,
+      "simbolo": "Tm",
+      "nombre_es": "Tulio",
+      "masa_atomica_u_aprox": 168.934,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 70,
+      "simbolo": "Yb",
+      "nombre_es": "Iterbio",
+      "masa_atomica_u_aprox": 173.045,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 71,
+      "simbolo": "Lu",
+      "nombre_es": "Lutecio",
+      "masa_atomica_u_aprox": 174.967,
+      "categoria": "Lantánido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 72,
+      "simbolo": "Hf",
+      "nombre_es": "Hafnio",
+      "masa_atomica_u_aprox": 178.49,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 73,
+      "simbolo": "Ta",
+      "nombre_es": "Tántalo",
+      "masa_atomica_u_aprox": 180.948,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 74,
+      "simbolo": "W",
+      "nombre_es": "Wolframio",
+      "masa_atomica_u_aprox": 183.84,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 75,
+      "simbolo": "Re",
+      "nombre_es": "Renio",
+      "masa_atomica_u_aprox": 186.207,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 76,
+      "simbolo": "Os",
+      "nombre_es": "Osmio",
+      "masa_atomica_u_aprox": 190.23,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 77,
+      "simbolo": "Ir",
+      "nombre_es": "Iridio",
+      "masa_atomica_u_aprox": 192.217,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 78,
+      "simbolo": "Pt",
+      "nombre_es": "Platino",
+      "masa_atomica_u_aprox": 195.084,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 79,
+      "simbolo": "Au",
+      "nombre_es": "Oro",
+      "masa_atomica_u_aprox": 196.967,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 80,
+      "simbolo": "Hg",
+      "nombre_es": "Mercurio",
+      "masa_atomica_u_aprox": 200.592,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 81,
+      "simbolo": "Tl",
+      "nombre_es": "Talio",
+      "masa_atomica_u_aprox": 204.38,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 82,
+      "simbolo": "Pb",
+      "nombre_es": "Plomo",
+      "masa_atomica_u_aprox": 207.2,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 83,
+      "simbolo": "Bi",
+      "nombre_es": "Bismuto",
+      "masa_atomica_u_aprox": 208.98,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 84,
+      "simbolo": "Po",
+      "nombre_es": "Polonio",
+      "masa_atomica_u_aprox": 209.0,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 85,
+      "simbolo": "At",
+      "nombre_es": "Astato",
+      "masa_atomica_u_aprox": 210.0,
+      "categoria": "Halógeno",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 86,
+      "simbolo": "Rn",
+      "nombre_es": "Radón",
+      "masa_atomica_u_aprox": 222.0,
+      "categoria": "Gas noble",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 87,
+      "simbolo": "Fr",
+      "nombre_es": "Francio",
+      "masa_atomica_u_aprox": 223.0,
+      "categoria": "Metal alcalino",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 88,
+      "simbolo": "Ra",
+      "nombre_es": "Radio",
+      "masa_atomica_u_aprox": 226.0,
+      "categoria": "Metal alcalinotérreo",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 89,
+      "simbolo": "Ac",
+      "nombre_es": "Actinio",
+      "masa_atomica_u_aprox": 227.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 90,
+      "simbolo": "Th",
+      "nombre_es": "Torio",
+      "masa_atomica_u_aprox": 232.038,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 91,
+      "simbolo": "Pa",
+      "nombre_es": "Protactinio",
+      "masa_atomica_u_aprox": 231.036,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 92,
+      "simbolo": "U",
+      "nombre_es": "Uranio",
+      "masa_atomica_u_aprox": 238.029,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "traza_o_variable",
+      "nota_astrofisica": "Posible en trazas; no asumir abundancia significativa sin un modelo estelar específico."
+    },
+    {
+      "Z": 93,
+      "simbolo": "Np",
+      "nombre_es": "Neptunio",
+      "masa_atomica_u_aprox": 237.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 94,
+      "simbolo": "Pu",
+      "nombre_es": "Plutonio",
+      "masa_atomica_u_aprox": 244.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 95,
+      "simbolo": "Am",
+      "nombre_es": "Americio",
+      "masa_atomica_u_aprox": 243.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 96,
+      "simbolo": "Cm",
+      "nombre_es": "Curio",
+      "masa_atomica_u_aprox": 247.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 97,
+      "simbolo": "Bk",
+      "nombre_es": "Berkelio",
+      "masa_atomica_u_aprox": 247.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 98,
+      "simbolo": "Cf",
+      "nombre_es": "Californio",
+      "masa_atomica_u_aprox": 251.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 99,
+      "simbolo": "Es",
+      "nombre_es": "Einstenio",
+      "masa_atomica_u_aprox": 252.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 100,
+      "simbolo": "Fm",
+      "nombre_es": "Fermio",
+      "masa_atomica_u_aprox": 257.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 101,
+      "simbolo": "Md",
+      "nombre_es": "Mendelevio",
+      "masa_atomica_u_aprox": 258.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 102,
+      "simbolo": "No",
+      "nombre_es": "Nobelio",
+      "masa_atomica_u_aprox": 259.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 103,
+      "simbolo": "Lr",
+      "nombre_es": "Lawrencio",
+      "masa_atomica_u_aprox": 266.0,
+      "categoria": "Actínido",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 104,
+      "simbolo": "Rf",
+      "nombre_es": "Rutherfordio",
+      "masa_atomica_u_aprox": 267.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 105,
+      "simbolo": "Db",
+      "nombre_es": "Dubnio",
+      "masa_atomica_u_aprox": 268.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 106,
+      "simbolo": "Sg",
+      "nombre_es": "Seaborgio",
+      "masa_atomica_u_aprox": 269.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 107,
+      "simbolo": "Bh",
+      "nombre_es": "Bohrio",
+      "masa_atomica_u_aprox": 270.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 108,
+      "simbolo": "Hs",
+      "nombre_es": "Hassio",
+      "masa_atomica_u_aprox": 269.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 109,
+      "simbolo": "Mt",
+      "nombre_es": "Meitnerio",
+      "masa_atomica_u_aprox": 278.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 110,
+      "simbolo": "Ds",
+      "nombre_es": "Darmstadtio",
+      "masa_atomica_u_aprox": 281.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 111,
+      "simbolo": "Rg",
+      "nombre_es": "Roentgenio",
+      "masa_atomica_u_aprox": 282.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 112,
+      "simbolo": "Cn",
+      "nombre_es": "Copernicio",
+      "masa_atomica_u_aprox": 285.0,
+      "categoria": "Metal de transición",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 113,
+      "simbolo": "Nh",
+      "nombre_es": "Nihonio",
+      "masa_atomica_u_aprox": 286.0,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 114,
+      "simbolo": "Fl",
+      "nombre_es": "Flerovio",
+      "masa_atomica_u_aprox": 289.0,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 115,
+      "simbolo": "Mc",
+      "nombre_es": "Moscovio",
+      "masa_atomica_u_aprox": 290.0,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 116,
+      "simbolo": "Lv",
+      "nombre_es": "Livermorio",
+      "masa_atomica_u_aprox": 293.0,
+      "categoria": "Metal postransición / clasificación especial",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 117,
+      "simbolo": "Ts",
+      "nombre_es": "Teneso",
+      "masa_atomica_u_aprox": 294.0,
+      "categoria": "Halógeno",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    },
+    {
+      "Z": 118,
+      "simbolo": "Og",
+      "nombre_es": "Oganesón",
+      "masa_atomica_u_aprox": 294.0,
+      "categoria": "Gas noble",
+      "presencia_estelar_general": "principalmente_sintetico_o_extremadamente_raro",
+      "nota_astrofisica": "Muy inestable o sintético; no tratar como componente habitual de una estrella."
+    }
+  ]
+}

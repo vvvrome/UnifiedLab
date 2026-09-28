@@ -1,0 +1,370 @@
+:root {
+    color-scheme: dark;
+
+    --bg: #080d18;
+    --panel: #111a2b;
+    --panel-light: #172238;
+    --text: #e8eefb;
+    --muted: #9baac5;
+    --accent: #7c9cff;
+    --accent-2: #54d6c8;
+    --border: rgba(170, 192, 235, 0.17);
+    --danger: #ff7e8b;
+    --success: #61d9a7;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            ellipse at 12% 0%,
+            rgba(69, 91, 176, 0.20),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 90% 18%,
+            rgba(44, 180, 190, 0.10),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color: var(--text);
+    font-family: Inter, system-ui, "Segoe UI", sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+a {
+    color: #a8bbff;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.sl-shell {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 32px 0 56px;
+}
+
+.sl-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 28px;
+}
+
+.sl-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+}
+
+.sl-brand-mark {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #8aa4ff, #55d8d0);
+    color: #08101f;
+    font-size: 21px;
+}
+
+/* TEXTOS */
+
+.sl-eyebrow {
+    color: var(--accent-2);
+    text-transform: uppercase;
+    letter-spacing: 0.13em;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.sl-title {
+    margin: 4px 0 8px;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.12;
+}
+
+.sl-subtitle {
+    color: var(--muted);
+    max-width: 760px;
+    margin: 0;
+}
+
+.sl-muted,
+.sl-help,
+small {
+    color: var(--muted);
+}
+
+/* TARJETAS Y DISTRIBUCIÓN */
+
+.sl-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.sl-card {
+    background: linear-gradient(
+        145deg,
+        rgba(21, 32, 53, 0.97),
+        rgba(13, 22, 39, 0.97)
+    );
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 22px;
+
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.16);
+}
+
+.sl-card h2,
+.sl-card h3 {
+    margin: 0 0 12px;
+}
+
+.sl-span-12 {
+    grid-column: span 12;
+}
+
+.sl-span-8 {
+    grid-column: span 8;
+}
+
+.sl-span-6 {
+    grid-column: span 6;
+}
+
+.sl-span-4 {
+    grid-column: span 4;
+}
+
+/* FORMULARIOS */
+
+form {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: clamp(18px, 3vw, 30px);
+
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+}
+
+form label {
+    display: block;
+    margin: 16px 0 6px;
+    color: #c8d5ef;
+    font-size: 0.9rem;
+    font-weight: 650;
+}
+
+input:not([type="submit"]):not([type="checkbox"]),
+select,
+textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 13px;
+
+    border: 1px solid rgba(170, 192, 235, 0.24);
+    border-radius: 10px;
+
+    background: #0a1323;
+    color: var(--text);
+    font: inherit;
+    outline: none;
+
+    transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(124, 156, 255, 0.14);
+}
+
+input[type="submit"],
+.sl-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 18px;
+    padding: 11px 18px;
+    min-height: 44px;
+
+    border: 0;
+    border-radius: 11px;
+
+    background: linear-gradient(135deg, #8aa4ff, #61d8d0);
+    color: #08101f;
+
+    font: inherit;
+    font-weight: 750;
+    cursor: pointer;
+    text-decoration: none;
+
+    transition: transform 0.18s, filter 0.18s;
+}
+
+input[type="submit"]:hover,
+.sl-button:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+/* ETIQUETAS Y MENSAJES */
+
+.sl-pill {
+    display: inline-flex;
+    padding: 5px 10px;
+    border-radius: 999px;
+
+    background: rgba(124, 156, 255, 0.12);
+    color: #b9c8ff;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.sl-notice {
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    color: var(--muted);
+    background: rgba(7, 13, 25, 0.45);
+}
+
+.sl-error {
+    color: var(--danger);
+}
+
+.sl-success {
+    color: var(--success);
+}
+
+.sl-stat {
+    font-size: 1.55rem;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+}
+
+/* VISTA ORBITAL */
+
+.sl-orbit-scene {
+    position: relative;
+    min-height: 320px;
+
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+
+    border-radius: 14px;
+    background: radial-gradient(
+        ellipse at center,
+        #111f3c 0%,
+        #080d18 72%
+    );
+
+    border: 1px solid var(--border);
+}
+
+.sl-star {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle at 35% 30%,
+        #fff8cb,
+        #ffc45e 42%,
+        #f07a35 75%
+    );
+
+    box-shadow:
+        0 0 24px #f9a64c,
+        0 0 70px rgba(249, 166, 76, 0.35);
+}
+
+.sl-orbit {
+    position: absolute;
+    width: var(--orbit-size);
+    height: var(--orbit-size);
+
+    border: 1px solid rgba(171, 194, 255, 0.34);
+    border-radius: 50%;
+}
+
+.sl-planet {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 10px;
+    height: 10px;
+    margin: -5px;
+
+    border-radius: 50%;
+    background: #8daeff;
+
+    box-shadow: 0 0 12px rgba(141, 174, 255, 0.8);
+}
+
+/* TABLAS */
+
+.sl-table-wrap {
+    overflow-x: auto;
+}
+
+.sl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.sl-table th,
+.sl-table td {
+    padding: 11px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.sl-table th {
+    color: var(--muted);
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+/* DISEÑO RESPONSIVE */
+
+@media (max-width: 760px) {
+    .sl-span-8,
+    .sl-span-6,
+    .sl-span-4 {
+        grid-column: span 12;
+    }
+
+    .sl-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .sl-shell {
+        width: calc(100% - 22px);
+        padding-top: 20px;
+    }
+}
+.sl-form{max-width:none;margin:0;padding:0;background:transparent;border:0}.sl-form .sl-card{height:100%}.sl-check{display:flex!important;align-items:center;gap:9px;margin:10px 0!important;font-weight:500!important}.sl-check input{width:auto!important;min-height:0!important}.sl-form button{border:0}.sl-card a{color:#a8bbff}.sl-card .sl-card{background:rgba(17,26,43,.65);padding:16px}.sl-table th{font-weight:700}.sl-orbit-scene{height:420px}.sl-orbit .sl-planet{top:0;left:50%;transform:translateY(-50%)}

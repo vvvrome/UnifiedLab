@@ -1,0 +1,7 @@
+Flask>=3.0
+numpy
+sympy
+scipy
+matplotlib
+werkzeug
+PyYAML

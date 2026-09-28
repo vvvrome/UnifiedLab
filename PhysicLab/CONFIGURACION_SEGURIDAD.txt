@@ -1,0 +1,47 @@
+PHYSICSLAB - CONFIGURACION DE SEGURIDAD
+=======================================
+
+CAMBIOS INCLUIDOS
+- El registro público no admite los nombres reservados admin, administrator y root.
+- Los roles administrativos existentes se degradan a usuario normal al iniciar la app.
+- Solo se provisiona el admin indicado mediante variables de entorno.
+- El rol se consulta en SQLite en cada petición autenticada; no se confía en el rol de la cookie.
+- /historial devuelve 403 a usuarios normales.
+- GET /api/historial limita al usuario normal a sus propias filas.
+- POST /api/historial ignora cualquier username enviado por el cliente y usa el usuario autenticado.
+- Cookies de sesión HttpOnly y SameSite=Lax; duración de sesión limitada.
+- Los errores internos del historial no se devuelven al navegador.
+
+CREAR/CONFIGURAR EL ADMIN (Windows CMD)
+---------------------------------------
+Antes de iniciar Flask, ejecuta en CMD (sustituye los valores por secretos propios):
+
+set PHYSICLAB_ADMIN_USERNAME=admin
+set PHYSICLAB_ADMIN_PASSWORD=UnaClaveLargaYUnica_2026!
+set PHYSICLAB_SECRET_KEY=pon_aqui_una_clave_secreta_larga_y_aleatoria
+python app.py
+
+Estas variables solo permanecen en esa ventana de CMD. Para hacerlas permanentes,
+configúralas en las variables de entorno de Windows y abre una terminal nueva.
+No guardes las contraseñas reales en el código ni las subas a GitHub.
+
+Al arrancar, la app convierte cualquier rol admin preexistente en user y después
+crea/actualiza únicamente la cuenta indicada por PHYSICLAB_ADMIN_USERNAME con la
+contraseña de PHYSICLAB_ADMIN_PASSWORD. Por tanto, configura ambas variables cada
+vez que arranques la app. No reutilices una cuenta preexistente si no controlas su
+contraseña; la variable de entorno reemplaza su hash de contraseña.
+
+Para un despliegue HTTPS, configura además:
+set PHYSICLAB_COOKIE_SECURE=1
+En localhost por HTTP, déjalo en 0 o la cookie no se enviará.
+
+IMPORTANTE
+- Conserva la base SQLite physiclab_users.db y haz una copia antes de probar.
+- El historial usa MySQL. Las entradas antiguas que permitían username enviado por
+  el cliente podrían estar mal atribuidas; no se pueden verificar retroactivamente.
+- El control de acceso del panel y de la API está en el servidor. El HTML puede
+  ocultar el enlace para usuarios normales, pero ocultarlo no sustituye este control.
+- Esta actualización no añade protección CSRF ni limitación de intentos de login;
+  son capas adicionales recomendables antes de exponer la app a Internet.
+- Verificación realizada: compilación sintáctica de app.py (py_compile). No se ha
+  ejecutado una prueba end-to-end con tu MySQL ni con todas las plantillas.

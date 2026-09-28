@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UnifiedLab</title><link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></head>
+<body><header class="top"><a class="brand" href="/">UNIFIED<span>LAB</span></a><nav class="top-right"><a href="{{ url_for('index') }}">Inicio</a>{% if session.get('user_id') %}<a href="{{ url_for('stellar.index') }}">StellarLab</a>{% endif %}</nav></header>
+<main>{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="messages">{% for category, message in messages %}<p class="{{ category }}">{{ message }}</p>{% endfor %}</div>{% endif %}{% endwith %}{% block content %}{% endblock %}</main>
+{% block extra_scripts %}{% endblock %}
+<footer>UnifiedLab · Entorno local de desarrollo</footer></body></html>

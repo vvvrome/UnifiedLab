@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="sl-shell">
+  <header class="sl-header"><div><div class="sl-eyebrow">STELLARLAB / OBJETO PLANETARIO</div><h1 class="sl-title">Crear planeta</h1><p class="sl-subtitle">Introduce las propiedades del planeta y su composición. Los cuatro bloques químicos deben sumar 100 %.</p></div><a class="sl-button" href="{{ url_for('stellar.index') }}">← StellarLab</a></header>
+  <form class="sl-form" action="{{ url_for('stellar.planeta') }}" method="post">
+    <div class="sl-grid">
+      <div class="sl-card sl-span-6"><h2>Identidad y órbita</h2>
+        <label>Nombre</label><input name="nombre" required>
+        <label>Tipo</label><select name="tipo" required><option value="terrestre">Terrestre</option><option value="super_tierra">Super-Tierra</option><option value="gigante_gaseoso">Gigante gaseoso</option><option value="gigante_helado">Gigante helado</option><option value="enano">Planeta enano</option><option value="personalizado">Personalizado</option></select>
+        <label>Masa (masas terrestres)</label><input name="masa" type="number" step="any" min="0.000001" required>
+        <label>Radio (radios terrestres)</label><input name="radio" type="number" step="any" min="0.000001" required>
+        <label>Distancia a la estrella (UA)</label><input name="distancia" type="number" step="any" min="0.000001" required>
+        <label>Excentricidad</label><input name="Excentricidad" type="number" step="any" min="0" max="0.999999" value="0" required>
+        <label>Inclinación (grados)</label><input name="Inclinacion" type="number" step="any" min="0" max="180" value="0" required>
+        <label>Ángulo/fase (grados)</label><input name="Angulo_fase" type="number" step="any" value="0" required>
+      </div>
+      <div class="sl-card sl-span-6"><h2>Superficie y atmósfera</h2>
+        <label>Albedo</label><input name="Albedo" type="number" step="any" min="0" max="1" value="0.3" required>
+        <label>Gravedad superficial (m/s²)</label><input name="Gravedad" type="number" step="any" value="0" required>
+        <label>Temperatura superficial (K)</label><input name="Temperatura" type="number" step="any" value="0" required>
+        <label>Atmósfera</label><input name="Atmosfera" placeholder="N2:78, O2:21, Ar:0.93, CO2:0.04" required>
+        <label>Presión atmosférica (Pa)</label><input name="Presion" type="number" step="any" value="0" required>
+        <label>Humedad relativa (%)</label><input name="Humedad" type="number" step="any" min="0" max="100" value="0" required>
+        <label>Radiación (Sv)</label><input name="Radiacion" type="number" step="any" value="0" required>
+        <label>Actividad solar (0-10)</label><input name="ActividadSolar" type="number" step="any" min="0" max="10" value="0" required>
+        <label>Campo magnético (T)</label><input name="CampoMagnetico" type="number" step="any" value="0" required>
+      </div>
+      <div class="sl-card sl-span-6"><h2>Geología y estructura</h2>
+        <label>Rotación (horas)</label><input name="Rotacion" type="number" step="any" value="24" required>
+        <label>Revolución (días)</label><input name="Revolucion" type="number" step="any" value="365.25" required>
+        <label>Anillos</label><input name="Anillos" type="number" step="1" min="0" value="0" required>
+        <label>Lunas</label><input name="Lunas" type="number" step="1" min="0" value="0" required>
+        <label>Magnetosfera</label><input name="Magnetosfera" type="number" step="any" value="0" required>
+        <label>Actividad geológica (0-10)</label><input name="Actividad" type="number" step="any" min="0" max="10" value="0" required>
+        <label>Edad (millones de años)</label><input name="Edad" type="number" step="any" min="0" value="0" required>
+        <label>Metalicidad [Fe/H]</label><input name="Metallicidad" type="number" step="any" value="0" required>
+      </div>
+      <div class="sl-card sl-span-6"><h2>Química e interior</h2>
+        <label>Composición global</label><input name="composicion" placeholder="Fe:32, O:30, Si:15, Mg:23" required>
+        <label>Abundancia</label><input name="Abundancia" placeholder="Fe:32, O:30, Si:15, Mg:23" required>
+        <label>Composición interior</label><input name="ComposicionInterior" placeholder="Fe:50, O:20, Si:20, Mg:10" required>
+        <label>Actividad volcánica (0-10)</label><input name="ActividadVolcanica" type="number" step="any" min="0" max="10" value="0" required>
+        <label>Actividad tectónica (0-10)</label><input name="ActividadTectonica" type="number" step="any" min="0" max="10" value="0" required>
+        <label>Actividad climática (0-10)</label><input name="ActividadClimatica" type="number" step="any" min="0" max="10" value="0" required>
+      </div>
+      <div class="sl-card sl-span-12"><button class="sl-button" type="submit">Crear planeta</button></div>
+    </div>
+  </form>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}<script src="{{ url_for('stellar.static', filename='js/stellar_form.js') }}" defer></script>{% endblock %}

@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DataCenter Monitor</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div>
+        <h1>DataCenter Monitor</h1>
+
+        <p id="datacenter-name">
+            Cargando...
+        </p>
+    </div>
+
+
+    <div class="system-status">
+
+        <span class="status-dot"></span>
+
+        <span>
+            SIMULATION ONLINE
+        </span>
+
+    </div>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a
+        href="/"
+        class="active"
+    >
+        Infrastructure
+    </a>
+
+    <a href="/plant">
+        Nuclear Plant
+    </a>
+
+</nav>
+
+<main>
+
+    <!-- RESUMEN -->
+
+    <section class="overview">
+
+        <div class="card">
+            <span class="card-title">RACKS</span>
+            <span class="card-value" id="rack-count">0</span>
+        </div>
+
+        <div class="card">
+            <span class="card-title">SERVERS</span>
+            <span class="card-value" id="server-count">0</span>
+        </div>
+
+        <div class="card">
+            <span class="card-title">POWER</span>
+            <span class="card-value" id="power">0 W</span>
+        </div>
+
+        <div class="card">
+            <span class="card-title">TEMPERATURE</span>
+            <span class="card-value" id="temperature">0 °C</span>
+        </div>
+
+    </section>
+
+
+    <!-- INFRAESTRUCTURA -->
+
+    <section>
+
+        <div class="section-title">
+            <h2>Infrastructure</h2>
+            <span id="last-update">Waiting for data...</span>
+        </div>
+
+        <div id="rack-tabs" class="rack-tabs"></div>
+        <div id="racks"></div>
+
+    </section>
+
+</main>
+
+<section class="alerts-section">
+
+    <div class="section-title">
+        <h2>Alerts</h2>
+        <span id="alert-count">0 events</span>
+    </div>
+
+    <div id="alerts"></div>
+
+    <div class="pagination">
+
+        <button id="previous-page" onclick="previousPage()">
+            ← Previous
+        </button>
+
+        <span id="page-number">
+            Page 1
+        </span>
+
+        <button id="next-page" onclick="nextPage()">
+            Next →
+        </button>
+
+    </div>
+
+</section>
+
+<section class="security-section">
+
+    <div class="section-title">
+
+        <h2>Security Events</h2>
+
+        <span id="security-count">
+            0 events
+        </span>
+
+    </div>
+
+    <div id="security-events"></div>
+
+</section>
+
+{% if session.get("role") == "ADMIN" %}
+
+<a href="/admin/users">
+    👥 Users
+</a>
+
+{% endif %}
+
+
+
+<script>
+
+let selectedRack = null;
+
+function renderRackTabs(racks) {
+
+    const tabsContainer =
+        document.getElementById("rack-tabs");
+
+    tabsContainer.innerHTML = "";
+
+    // =========================
+    // PESTAÑAS DE LOS RACKS
+    // =========================
+
+    racks.forEach((rack, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "rack-tab";
+
+        // Seleccionar el primer rack inicialmente
+        if (
+            selectedRack === null &&
+            index === 0
+        ) {
+            selectedRack = rack.name;
+        }
+
+        if (selectedRack === rack.name) {
+            button.classList.add("active");
+        }
+
+        button.textContent = rack.name;
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                selectedRack = rack.name;
+
+                // Volver a la primera página
+                // de alertas de este rack
+                currentAlertPage = 1;
+
+                updateDashboard();
+                updateAlerts();
+                updateSecurityEvents();
+
+            }
+        );
+
+        tabsContainer.appendChild(button);
+    });
+
+
+    // =========================
+    // PESTAÑA ALL ALERTS
+    // =========================
+
+    const allAlertsButton =
+        document.createElement("button");
+
+    allAlertsButton.className = "rack-tab";
+
+    if (selectedRack === "ALL_ALERTS") {
+        allAlertsButton.classList.add("active");
+    }
+
+    allAlertsButton.textContent =
+        "ALL ALERTS";
+
+    allAlertsButton.addEventListener(
+        "click",
+        () => {
+
+            selectedRack = "ALL_ALERTS";
+
+            currentAlertPage = 1;
+
+            updateDashboard();
+            updateAlerts();
+            updateSecurityEvents();
+
+        }
+    );
+
+    tabsContainer.appendChild(
+        allAlertsButton
+    );
+}
+
+async function updateDashboard() {
+
+    try {
+
+        const response = await fetch("/api/status");
+
+        const data = await response.json();
+
+        document.getElementById("datacenter-name").textContent =
+            data.name;
+
+        renderRackTabs(data.racks);
+
+        let serverCount = 0;
+        let totalPower = 0;
+        let totalTemperature = 0;
+
+
+        const racksContainer =
+            document.getElementById("racks");
+
+        racksContainer.innerHTML = "";
+
+
+        data.racks.forEach(rack => {
+
+        if (
+            selectedRack !== "ALL_ALERTS" &&
+            rack.name !== selectedRack
+        ) {
+            return;
+        }
+
+            const rackElement =
+                document.createElement("div");
+
+            rackElement.className = "rack";
+
+            rackElement.innerHTML = `
+                <div class="rack-header">
+
+                    <div>
+                        <h3>${rack.name}</h3>
+
+                        <span>
+                            ${rack.used_units}U used /
+                            ${rack.total_units}U
+                        </span>
+                    </div>
+
+                    <span class="rack-available">
+                        ${rack.available_units}U available
+                    </span>
+
+                </div>
+
+                <div class="servers"></div>
+            `;
+
+
+            const serversContainer =
+                rackElement.querySelector(".servers");
+
+
+            rack.servers.forEach(server => {
+
+                serverCount++;
+
+                totalPower += server.power;
+                totalTemperature += server.temperature;
+
+
+                const serverElement =
+                    document.createElement("div");
+
+                serverElement.className = "server";
+
+
+                let statusClass="";
+                
+                if (server.status === "ONLINE") {
+                    statusClass = "online";
+                }
+
+                else if (server.status === "WARNING") {
+                    statusClass = "warning";
+                }
+
+                else if (server.status === "CRITICAL") {
+                    statusClass = "critical";
+                }
+
+                else if (server.status === "OFFLINE") {
+                    statusClass = "offline";
+                }
+
+                serverElement.innerHTML = `
+
+                    <div class="server-header">
+
+                    <div>
+                        <strong>${server.name}</strong>
+
+                        <span class="server-type">
+                            ${server.type}
+                        </span>
+                        <span class="network-connection">
+                            ${server.switch} · PORT ${server.switch_port}
+                        </span>
+                        <span class="server-status ${statusClass}">
+                            <span class="status-dot"></span>
+                            ${server.status}
+                        </span>
+                    </div>                        
+                        <span class="${statusClass}">
+                            ${server.temperature.toFixed(1)} °C
+                        </span>
+
+                    </div>
+
+
+                    <div class="metrics">
+
+                        <div class="metric">
+
+                            <div class="metric-header">
+                                <span>CPU</span>
+                                <span>${server.cpu.toFixed(0)}%</span>
+                            </div>
+
+                            <div class="progress">
+                                <div
+                                    class="progress-bar"
+                                    style="width:${server.cpu}%">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <div class="metric-header">
+                                <span>RAM</span>
+                                <span>${server.ram.toFixed(0)}%</span>
+                            </div>
+
+                            <div class="progress">
+                                <div
+                                    class="progress-bar"
+                                    style="width:${server.ram}%">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="metric">
+
+                            <div class="metric-header">
+                                <span>NETWORK</span>
+                                <span>${server.network.toFixed(0)}%</span>
+                            </div>
+
+                            <div class="progress">
+                                <div
+                                    class="progress-bar"
+                                    style="width:${server.network}%">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="server-info">
+
+                            <span>
+                                POWER
+                                <strong>
+                                    ${server.power.toFixed(0)} W
+                                </strong>
+                            </span>
+
+                            <span>
+                                TEMP
+                                <strong>
+                                    ${server.temperature.toFixed(1)} °C
+                                </strong>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                serversContainer.appendChild(serverElement);
+
+            });
+
+            (rack.switches || []).forEach(switchDevice => {
+
+                const switchElement =
+                    document.createElement("div");
+
+                switchElement.className = "switch-device";
+
+                let switchStatusClass = "";
+
+                if (switchDevice.status === "ONLINE") {
+                    switchStatusClass = "online";
+                }
+                else if (switchDevice.status === "WARNING") {
+                    switchStatusClass = "warning";
+                }
+                else if (switchDevice.status === "CRITICAL") {
+                    switchStatusClass = "critical";
+                }
+
+                switchElement.innerHTML = `
+
+                    <div class="switch-header">
+
+                        <strong>
+                            ${switchDevice.name}
+                        </strong>
+
+                        <span class="server-status ${switchStatusClass}">
+                            <span class="status-dot"></span>
+                            ${switchDevice.status}
+                        </span>
+
+                    </div>
+
+                    <div class="switch-info">
+
+                        <span>
+                            PORTS
+                            <strong>
+                                ${switchDevice.used_ports}
+                                /
+                                ${switchDevice.ports}
+                            </strong>
+                        </span>
+
+                        <span>
+                            TRAFFIC
+                            <strong>
+                                ${switchDevice.traffic.toFixed(0)}%
+                            </strong>
+                        </span>
+
+                        <span>
+                            TEMPERATURE
+                            <strong>
+                                ${switchDevice.temperature.toFixed(1)} °C
+                            </strong>
+                        </span>
+
+                        <span>
+                            POWER
+                            <strong>
+                                ${switchDevice.power.toFixed(0)} W
+                            </strong>
+                        </span>
+
+                    </div>
+                    <div class="switch-ports">
+                        ${switchDevice.ports_status.map(port => `
+
+                            <div class="switch-port">
+
+                                <div class="port-header">
+
+                                    <span>
+                                        PORT ${port.port}
+                                    </span>
+
+                                    <span>
+                                        ${port.server}
+                                    </span>
+
+                                    <strong class="port-status ${port.status.toLowerCase()}">
+                                        ${port.status}
+                                        ·
+                                        ${port.usage.toFixed(0)}%
+                                    </strong>
+
+                                </div>
+
+                                <div class="port-progress">
+
+                                    <div
+                                        class="port-progress-bar ${port.status.toLowerCase()}"
+                                        style="width:${port.usage}%">
+                                    </div>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+                `;
+
+                rackElement.appendChild(
+                    switchElement
+                );
+
+            (rack.routers || []).forEach(routerDevice => {
+
+                const routerElement =
+                    document.createElement("div");
+
+                routerElement.className =
+                    "router-device";
+
+                let routerStatusClass = "";
+
+                if (routerDevice.status === "ONLINE") {
+                    routerStatusClass = "online";
+                }
+                else if (routerDevice.status === "WARNING") {
+                    routerStatusClass = "warning";
+                }
+                else if (routerDevice.status === "CRITICAL") {
+                    routerStatusClass = "critical";
+                }
+
+                routerElement.innerHTML = `
+
+                    <div class="router-header">
+
+                        <strong>
+                            ${routerDevice.name}
+                        </strong>
+
+                        <span class="server-status ${routerStatusClass}">
+                            <span class="status-dot"></span>
+                            ${routerDevice.status}
+                        </span>
+
+                    </div>
+
+                    <div class="router-info">
+
+                        <span>
+                            PORTS
+                            <strong>
+                                ${routerDevice.used_ports}
+                                /
+                                ${routerDevice.ports}
+                            </strong>
+                        </span>
+
+                        <span>
+                            TRAFFIC
+                            <strong>
+                                ${routerDevice.traffic.toFixed(0)}%
+                            </strong>
+                        </span>
+
+                        <span>
+                            TEMPERATURE
+                            <strong>
+                                ${routerDevice.temperature.toFixed(1)} °C
+                            </strong>
+                        </span>
+
+                        <span>
+                            POWER
+                            <strong>
+                                ${routerDevice.power.toFixed(0)} W
+                            </strong>
+                        </span>
+
+                    </div>
+                    <div class="router-ports">
+
+                        ${routerDevice.ports_status.map(port => `
+
+                            <div class="router-port">
+
+                                <div class="port-header">
+
+                                    <span>
+                                        PORT ${port.port}
+                                    </span>
+
+                                    <span>
+                                        ${port.device}
+                                    </span>
+
+                                    <strong class="port-status ${port.status.toLowerCase()}">
+                                        ${port.status}
+                                        ·
+                                        ${port.usage.toFixed(0)}%
+                                    </strong>
+
+                                </div>
+
+                                <div class="port-progress">
+
+                                    <div
+                                        class="port-progress-bar ${port.status.toLowerCase()}"
+                                        style="width:${port.usage}%">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        `).join("")}
+
+                    </div>
+                `;
+
+                rackElement.appendChild(
+                    routerElement
+                );
+
+            });
+
+            });
+            racksContainer.appendChild(rackElement);
+
+        });
+
+
+        document.getElementById("rack-count").textContent =
+            data.racks.length;
+
+        document.getElementById("server-count").textContent =
+            serverCount;
+
+        document.getElementById("power").textContent =
+            totalPower.toFixed(0) + " W";
+
+
+        if (serverCount > 0) {
+
+            document.getElementById("temperature").textContent =
+                (totalTemperature / serverCount).toFixed(1)
+                + " °C";
+
+        }
+
+
+        document.getElementById("last-update").textContent =
+            "Updated: " + new Date().toLocaleTimeString();
+
+
+    } catch (error) {
+
+        console.error("Dashboard error:", error);
+
+        document.getElementById("last-update").textContent =
+            "Connection error";
+
+    }
+
+}
+
+let currentAlertPage = 1;
+
+const alertsPerPage = 20;
+
+let allAlerts = [];
+
+async function updateAlerts() {
+
+    try {
+
+        const response = await fetch("/api/alerts");
+
+        allAlerts = await response.json();
+
+        const container =
+            document.getElementById("alerts");
+
+        let filteredAlerts;
+
+        // =========================
+        // FILTRAR POR RACK
+        // =========================
+
+        if (selectedRack === "ALL_ALERTS") {
+
+            filteredAlerts = allAlerts;
+
+        } else {
+
+            filteredAlerts = allAlerts.filter(
+                alert => alert.rack === selectedRack
+            );
+
+        }
+
+
+        // =========================
+        // CONTADOR DE ALERTAS
+        // =========================
+
+        document.getElementById("alert-count").textContent =
+            `${filteredAlerts.length} events`;
+
+
+        // =========================
+        // PAGINACIÓN
+        // =========================
+
+        const totalPages =
+            Math.max(
+                1,
+                Math.ceil(
+                    filteredAlerts.length /
+                    alertsPerPage
+                )
+            );
+
+
+        if (currentAlertPage > totalPages) {
+
+            currentAlertPage = totalPages;
+
+        }
+
+
+        // Las más recientes primero
+
+        const sortedAlerts =
+            [...filteredAlerts].reverse();
+
+
+        const start =
+            (currentAlertPage - 1) *
+            alertsPerPage;
+
+
+        const end =
+            start + alertsPerPage;
+
+
+        const pageAlerts =
+            sortedAlerts.slice(
+                start,
+                end
+            );
+
+
+        // =========================
+        // LIMPIAR ALERTAS
+        // =========================
+
+        container.innerHTML = "";
+
+
+        // =========================
+        // MOSTRAR ALERTAS
+        // =========================
+
+        pageAlerts.forEach(alert => {
+
+            const alertElement =
+                document.createElement("div");
+
+
+            alertElement.className =
+                `alert ${alert.severity.toLowerCase()}`;
+
+
+            // Información adicional dependiendo
+            // del tipo de alerta
+
+            let details = "";
+
+
+            // ALERTA DE SERVIDOR
+
+            if (alert.cpu !== undefined) {
+
+                details += `
+                    <span>
+                        CPU: ${Number(alert.cpu).toFixed(0)}%
+                    </span>
+                `;
+
+            }
+
+
+            // ALERTA DE RED / PUERTO
+
+            if (alert.traffic !== undefined) {
+
+                details += `
+                    <span>
+                        Network:
+                        ${Number(alert.traffic).toFixed(1)}%
+                    </span>
+                `;
+
+            }
+
+
+            // PUERTO
+
+            if (alert.port !== undefined) {
+
+                details += `
+                    <span>
+                        PORT:
+                        ${alert.port}
+                    </span>
+                `;
+
+            }
+
+
+            // TEMPERATURA
+
+            if (alert.temperature !== undefined) {
+
+                details += `
+                    <span>
+                        Temperature:
+                        ${Number(alert.temperature).toFixed(1)} °C
+                    </span>
+                `;
+
+            }
+
+
+            // DISPOSITIVO
+
+            if (alert.device !== undefined) {
+
+                details += `
+                    <span>
+                        Device:
+                        ${alert.device}
+                    </span>
+                `;
+
+            }
+
+
+            alertElement.innerHTML = `
+
+                <div class="alert-indicator"></div>
+
+                <div class="alert-main">
+
+                    <div class="alert-header">
+
+                        <strong>
+                            ${alert.severity}
+                        </strong>
+
+                        <span>
+                            ${alert.timestamp}
+                        </span>
+
+                    </div>
+
+
+                    <div class="alert-message">
+
+                        ${alert.message}
+
+                    </div>
+
+
+                    <div class="alert-details">
+
+                        ${details}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                alertElement
+            );
+
+        });
+
+
+        // =========================
+        // PAGINACIÓN
+        // =========================
+
+        updatePagination(
+            totalPages
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Alert error:",
+            error
+        );
+
+    }
+
+}
+
+async function updateSecurityEvents() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/security/events"
+            );
+
+        const events =
+            await response.json();
+
+
+        // =========================
+        // FILTRAR POR RACK
+        // =========================
+
+        let filteredEvents;
+
+
+        if (selectedRack === "ALL_ALERTS") {
+
+            filteredEvents = events;
+
+        } else {
+
+            filteredEvents = events.filter(
+                event =>
+                    event.source_rack === selectedRack ||
+                    event.destination_rack === selectedRack
+            );
+
+        }
+
+
+        // =========================
+        // CONTADOR
+        // =========================
+
+        document.getElementById(
+            "security-count"
+        ).textContent =
+            `${filteredEvents.length} events`;
+
+
+        const container =
+            document.getElementById(
+                "security-events"
+            );
+
+
+        container.innerHTML = "";
+
+
+        // =========================
+        // MOSTRAR EVENTOS
+        // =========================
+
+        [...filteredEvents]
+            .reverse()
+            .forEach(event => {
+
+                const element =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                element.className =
+                    "security-event";
+
+
+                element.innerHTML = `
+
+                    <div class="security-event-indicator">
+                        🔴
+                    </div>
+
+                    <div class="security-event-main">
+
+                        <div class="security-event-header">
+
+                            <strong>
+                                ${event.type}
+                            </strong>
+
+                            <span>
+                                ${event.timestamp}
+                            </span>
+
+                        </div>
+
+
+                        <div class="security-event-message">
+
+                            ${event.message}
+
+                        </div>
+
+
+                        <div class="security-event-details">
+
+                            <span>
+                                Source:
+                                ${event.source}
+                            </span>
+
+                            <span>
+                                Zone:
+                                ${event.source_zone}
+                            </span>
+
+                            <span>
+                                Destination:
+                                ${event.destination}
+                            </span>
+
+                            <span>
+                                Zone:
+                                ${event.destination_zone}
+                            </span>
+
+                            <span>
+                                Protocol:
+                                ${event.protocol}
+                            </span>
+
+                            <span>
+                                Port:
+                                ${event.port}
+                            </span>
+
+                            <span>
+                                Action:
+                                ${event.action}
+                            </span>
+
+                        </div>
+
+                    </div>
+                `;
+
+
+                container.appendChild(
+                    element
+                );
+
+            });
+
+
+    } catch (error) {
+
+        console.error(
+            "Security event error:",
+            error
+        );
+
+    }
+
+}
+
+function updatePagination(totalPages) {
+
+    document.getElementById("page-number").textContent =
+        `Page ${currentAlertPage} / ${totalPages}`;
+
+
+    document.getElementById("previous-page").disabled =
+        currentAlertPage === 1;
+
+
+    document.getElementById("next-page").disabled =
+        currentAlertPage === totalPages;
+}
+
+
+function nextPage() {
+
+    const filteredAlerts =
+        selectedRack === "ALL_ALERTS"
+            ? allAlerts
+            : allAlerts.filter(
+                alert => alert.rack === selectedRack
+            );
+
+    const totalPages =
+        Math.max(
+            1,
+            Math.ceil(
+                filteredAlerts.length /
+                alertsPerPage
+            )
+        );
+
+    if (currentAlertPage < totalPages) {
+
+        currentAlertPage++;
+
+        updateAlerts();
+    }
+}
+
+
+function previousPage() {
+
+    if (currentAlertPage > 1) {
+
+        currentAlertPage--;
+
+        updateAlerts();
+    }
+}
+
+
+
+updateDashboard();
+updateAlerts();
+
+
+setInterval(
+    updateDashboard,
+    1000
+);
+
+setInterval(
+    updateAlerts,
+    1000
+);
+
+</script>
+
+</body>
+
+</html>

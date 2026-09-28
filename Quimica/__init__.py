@@ -1,0 +1,1 @@
+"""Módulo StellarLab de UnifiedLab."""

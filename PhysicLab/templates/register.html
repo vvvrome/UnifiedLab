@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+    <div class="register-card">
+        <h1>
+            Create account
+        </h1>
+        <div class="subtitle">
+            PhysicLab
+        </div>
+        {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            <label>
+                Usuario
+            </label>
+            <input type="text" name="username" minlength="3" required>
+            <label>
+                Contraseña
+            </label>
+            <input type="password" name="password" minlength="8" required>
+            <label>
+                Repetir contraseña
+            </label>
+            <input type="password" name="password_confirm" minlength="8" required>
+            <button type="submit">
+                Crear cuenta
+            </button>
+        </form>
+        <div class="login">
+            ¿Ya tienes una cuenta?
+            <a href="/login">
+                Iniciar Sesión
+            </a>
+        </div>
+    </div>
+</body>
+</html>

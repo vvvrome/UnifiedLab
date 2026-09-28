@@ -1,0 +1,273 @@
+/* ========================================
+   PHYSICSLAB - LOGIN / REGISTER
+   Diseño moderno, oscuro y responsive
+======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ---------- Variables ---------- */
+
+:root {
+    --bg: #080d18;
+    --card: rgba(17, 26, 45, 0.88);
+    --primary: #6366f1;
+    --primary-hover: #818cf8;
+    --secondary: #22d3ee;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border: rgba(148, 163, 184, 0.16);
+    --input-bg: rgba(8, 13, 24, 0.7);
+    --danger: #fb7185;
+}
+
+/* ---------- Reset ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background:
+        radial-gradient(
+            ellipse at 15% 20%,
+            rgba(99, 102, 241, 0.16),
+            transparent 45%
+        ),
+        radial-gradient(
+            ellipse at 85% 80%,
+            rgba(34, 211, 238, 0.10),
+            transparent 40%
+        ),
+        var(--bg);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+/* ---------- Contenedor principal ---------- */
+
+.login-card,
+.register-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 42px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.45),
+        0 0 40px rgba(99, 102, 241, 0.06);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    animation: appear 0.5s ease-out;
+}
+
+/* ---------- Títulos ---------- */
+
+.login-card h1,
+.register-card h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    text-align: center;
+    margin-bottom: 10px;
+
+    background: linear-gradient(
+        100deg,
+        #a5b4fc,
+        #67e8f9
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.login-card h2,
+.register-card h2 {
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+}
+
+/* ---------- Formularios ---------- */
+
+.login-card form,
+.register-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.login-card label,
+.register-card label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #cbd5e1;
+    margin-top: 5px;
+}
+
+/* ---------- Inputs ---------- */
+
+.login-card input,
+.register-card input {
+    width: 100%;
+    padding: 14px 16px;
+
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+    transition: 0.25s ease;
+}
+
+.login-card input::placeholder,
+.register-card input::placeholder {
+    color: #64748b;
+}
+
+.login-card input:focus,
+.register-card input:focus {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.06);
+
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* ---------- Botones ---------- */
+
+.login-card button,
+.register-card button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 15px;
+
+    border: none;
+    border-radius: 11px;
+
+    background: linear-gradient(
+        110deg,
+        var(--primary),
+        #4f46e5
+    );
+
+    color: white;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.login-card button:hover,
+.register-card button:hover {
+    transform: translateY(-2px);
+
+    background: linear-gradient(
+        110deg,
+        var(--primary-hover),
+        #6366f1
+    );
+
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+.login-card button:active,
+.register-card button:active {
+    transform: translateY(0);
+}
+
+/* ---------- Enlaces ---------- */
+
+.login-card a,
+.register-card a {
+    color: var(--secondary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+.login-card a:hover,
+.register-card a:hover {
+    color: #a5f3fc;
+    text-decoration: underline;
+}
+
+.login-card p,
+.register-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ---------- Mensajes de error ---------- */
+
+.error {
+    padding: 12px 14px;
+    border: 1px solid rgba(251, 113, 133, 0.25);
+    border-radius: 10px;
+
+    background: rgba(251, 113, 133, 0.08);
+    color: var(--danger) !important;
+
+    font-size: 13px;
+    text-align: left !important;
+    margin: 5px 0 !important;
+}
+
+/* ---------- Animación ---------- */
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px;
+    }
+
+    .login-card,
+    .register-card {
+        padding: 28px 22px;
+        border-radius: 17px;
+    }
+
+    .login-card h1,
+    .register-card h1 {
+        font-size: 24px;
+    }
+}

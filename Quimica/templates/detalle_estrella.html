@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="sl-shell">
+  <header class="sl-header"><div><div class="sl-eyebrow">STELLARLAB / ANÁLISIS</div><h1 class="sl-title">{{ star.nombre }}</h1><p class="sl-subtitle">{{ star.tipo }} · propiedades derivadas mediante el modelo estelar.</p></div><a class="sl-button" href="{{ url_for('stellar.index') }}">← StellarLab</a></header>
+  <div class="sl-grid">
+    <article class="sl-card sl-span-6"><h2>Datos introducidos</h2><table class="sl-table"><tbody>
+      <tr><th>Masa</th><td>{{ star.masa }} M☉</td></tr><tr><th>Radio</th><td>{{ star.radio }} R☉</td></tr><tr><th>Temperatura</th><td>{{ star.temperatura }} K</td></tr><tr><th>Luminosidad</th><td>{{ star.luminosidad }} L☉</td></tr><tr><th>Edad</th><td>{{ star.edad }} millones de años</td></tr><tr><th>Metalicidad</th><td>{{ star.metallicidad }} [Fe/H]</td></tr>
+    </tbody></table></article>
+    <article class="sl-card sl-span-6"><h2>Análisis físico</h2><table class="sl-table"><tbody>
+      <tr><th>Masa</th><td>{{ '%.4e'|format(star.analisis.masa_kg) }} kg</td></tr><tr><th>Radio</th><td>{{ '%.4e'|format(star.analisis.radio_m) }} m</td></tr><tr><th>Densidad</th><td>{{ '%.4f'|format(star.analisis.densidad_kg_m3) }} kg/m³</td></tr><tr><th>Gravedad</th><td>{{ '%.4f'|format(star.analisis.gravedad_m_s2) }} m/s²</td></tr><tr><th>Velocidad de escape</th><td>{{ '%.4e'|format(star.analisis.velocidad_escape_m_s) }} m/s</td></tr><tr><th>Luminosidad teórica</th><td>{{ '%.4e'|format(star.analisis.luminosidad_teorica_w) }} W</td></tr>
+    </tbody></table></article>
+    <article class="sl-card sl-span-12"><h2>Composición</h2><div class="sl-grid">{% for symbol, value in star.composicion.items() %}<div class="sl-card sl-span-4"><strong>{{ symbol }}</strong><div class="sl-stat">{{ value }} %</div></div>{% endfor %}</div></article>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="sl-shell">
+  <header class="sl-header">
+    <div>
+      <div class="sl-eyebrow">03 / ASTROFÍSICA Y QUÍMICA</div>
+      <h1 class="sl-title">StellarLab</h1>
+      <p class="sl-subtitle">Construye estrellas y planetas a partir de su composición química y estudia sus propiedades y órbitas.</p>
+    </div>
+    <span class="sl-pill">Sesión: {{ session.get('username') }}</span>
+  </header>
+
+  <div class="sl-grid">
+    <article class="sl-card sl-span-4">
+      <h2>Crear estrella</h2>
+      <p class="sl-muted">Masa, radio, temperatura, luminosidad, edad, metalicidad y composición.</p>
+      <a class="sl-button" href="{{ url_for('stellar.estrella') }}">Nueva estrella</a>
+    </article>
+    <article class="sl-card sl-span-4">
+      <h2>Crear planeta</h2>
+      <p class="sl-muted">Propiedades físicas, atmósfera, interior, actividad y parámetros orbitales.</p>
+      <a class="sl-button" href="{{ url_for('stellar.planeta') }}">Nuevo planeta</a>
+    </article>
+    <article class="sl-card sl-span-4">
+      <h2>Simulador orbital</h2>
+      <p class="sl-muted">Integra las interacciones gravitatorias mediante Velocity Verlet.</p>
+      <a class="sl-button" href="{{ url_for('stellar.orbita') }}">Abrir simulador</a>
+    </article>
+
+    <article class="sl-card sl-span-6">
+      <h2>Mis estrellas</h2>
+      {% if stars %}
+      <div class="sl-table-wrap"><table class="sl-table"><thead><tr><th>Nombre</th><th>Tipo</th><th>Masa ☉</th><th>Temp. K</th></tr></thead><tbody>
+      {% for id, star, created in stars %}<tr><td><a href="{{ url_for('stellar.detalle_estrella', star_id=id) }}">{{ star.nombre }}</a></td><td>{{ star.tipo }}</td><td>{{ star.masa }}</td><td>{{ star.temperatura }}</td></tr>{% endfor %}
+      </tbody></table></div>
+      {% else %}<p class="sl-muted">Todavía no has creado estrellas.</p>{% endif %}
+    </article>
+
+    <article class="sl-card sl-span-6">
+      <h2>Mis planetas</h2>
+      {% if planets %}
+      <div class="sl-table-wrap"><table class="sl-table"><thead><tr><th>Nombre</th><th>Tipo</th><th>Masa ⊕</th><th>Distancia UA</th></tr></thead><tbody>
+      {% for id, planet, created in planets %}<tr><td>{{ planet.nombre }}</td><td>{{ planet.tipo }}</td><td>{{ planet.masa }}</td><td>{{ planet.distancia }}</td></tr>{% endfor %}
+      </tbody></table></div>
+      {% else %}<p class="sl-muted">Todavía no has creado planetas.</p>{% endif %}
+    </article>
+  </div>
+</section>
+{% endblock %}

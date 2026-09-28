@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="sl-shell">
+  <header class="sl-header"><div><div class="sl-eyebrow">STELLARLAB / OBJETO ESTELAR</div><h1 class="sl-title">Crear estrella</h1><p class="sl-subtitle">Los porcentajes de composición y abundancia deben sumar 100 %.</p></div><a class="sl-button" href="{{ url_for('stellar.index') }}">← StellarLab</a></header>
+  <form class="sl-form" action="{{ url_for('stellar.estrella') }}" method="post">
+    <div class="sl-grid">
+      <div class="sl-card sl-span-6"><h2>Identidad</h2>
+        <label for="nombre">Nombre</label><input id="nombre" name="nombre" required>
+        <label for="tipo">Tipo</label><select id="tipo" name="tipo" required><option value="enana_roja">Enana Roja</option><option value="gigante_roja">Gigante Roja</option><option value="supergigante">Supergigante</option><option value="enana_blanca">Enana Blanca</option><option value="Personalizada">Personalizada</option></select>
+        <label for="masa">Masa (masas solares)</label><input id="masa" name="masa" type="number" step="any" min="0.000001" required>
+        <label for="radio">Radio (radios solares)</label><input id="radio" name="radio" type="number" step="any" min="0.000001" required>
+        <label for="temperatura">Temperatura superficial (K)</label><input id="temperatura" name="temperatura" type="number" step="any" min="0.1" required>
+      </div>
+      <div class="sl-card sl-span-6"><h2>Propiedades</h2>
+        <label for="Luminosidad">Luminosidad (luminosidades solares)</label><input id="Luminosidad" name="Luminosidad" type="number" step="any" min="0" required>
+        <label for="edad">Edad (millones de años)</label><input id="edad" name="edad" type="number" step="any" min="0" required>
+        <label for="metallicidad">Metalicidad [Fe/H]</label><input id="metallicidad" name="metallicidad" type="number" step="any" required>
+        <label for="composicion">Composición química</label><input id="composicion" name="composicion" placeholder="H:70, He:28, O:1, Fe:1" required><small>Porcentajes en masa, suma = 100 %.</small>
+        <label for="abundancia">Abundancia de elementos</label><input id="abundancia" name="abundancia" placeholder="H:70, He:28, O:1, Fe:1" required><small>Usa símbolos presentes en elements.json.</small>
+      </div>
+      <div class="sl-card sl-span-12"><button class="sl-button" type="submit">Crear y analizar estrella</button></div>
+    </div>
+  </form>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}<script src="{{ url_for('stellar.static', filename='js/stellar_form.js') }}" defer></script>{% endblock %}

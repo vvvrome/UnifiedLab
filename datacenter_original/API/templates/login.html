@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SCADA Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #0b0f14;
+            color: #f8fafc;
+
+            font-family:
+                Arial,
+                sans-serif;
+        }
+
+        .login-card {
+            width: 380px;
+            padding: 35px;
+
+            background: #111827;
+
+            border:
+                1px solid
+                rgba(148,163,184,0.2);
+
+            border-radius: 12px;
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+
+            padding: 12px;
+
+            margin-bottom: 18px;
+
+            background: #020617;
+
+            color: white;
+
+            border:
+                1px solid
+                #334155;
+
+            border-radius: 7px;
+        }
+
+        button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #f97316;
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .error {
+            margin-bottom: 18px;
+
+            padding: 10px;
+
+            border-radius: 6px;
+
+            background: rgba(239,68,68,0.15);
+
+            color: #fca5a5;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <h1>SCADA Access</h1>
+
+        <div class="subtitle">
+            Nuclear Plant Simulation
+        </div>
+
+        {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+        <form method="POST">
+
+            <label>
+                Usuario
+            </label>
+
+            <input
+                type="text"
+                name="username"
+                required
+            >
+
+            <label>
+                Contraseña
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                required
+            >
+
+            <button type="submit">
+                Iniciar sesión
+            </button>
+            
+            <div class="register-link">
+                ¿No tienes una cuenta?
+                <a href="{{ url_for('register') }}">Registrarse</a>
+            </div>
+        </form>
+
+    </div>
+
+</body>
+
+</html>

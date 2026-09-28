@@ -1,0 +1,83 @@
+datacenter:
+  name: DC-Madrid
+
+  racks:
+
+    - name: RACK-01
+      total_units: 42
+
+      servers:
+
+        - name: SERVER-01
+          type: WEB
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 2
+
+        - name: SERVER-02
+          type: DATABASE
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 2
+
+        - name: SERVER-03
+          type: STORAGE
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 4
+
+        - name: SERVER-04
+          type: BACKUP
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 2
+
+
+    - name: RACK-02
+      total_units: 42
+
+      servers:
+
+        - name: SERVER-05
+          type: WEB
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 2
+
+        - name: SERVER-06
+          type: DATABASE
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 2
+
+        - name: SERVER-07
+          type: STORAGE
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 4
+
+        - name: SERVER-08
+          type: BACKUP
+          cpu: 16
+          ram: 64
+          storage: 2000
+          rack_units: 2
+
+faults:
+  enabled: true
+  # Cada cuántos segundos se comprueba
+  # si debe aparecer un fallo
+  check_interval: 10
+  # Probabilidad de fallo por comprobación
+  sensor_failure_probability: 0.10
+  actuator_failure_probability: 0.05
+  # Duración de los fallos
+  min_duration: 5
+  max_duration: 15

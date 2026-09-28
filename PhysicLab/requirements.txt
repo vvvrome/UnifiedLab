@@ -1,0 +1,6 @@
+Flask
+numpy
+sympy
+scipy
+matplotlib
+mysql-connector-python

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Audit Log | SCADA</title>
+
+    <style>
+
+        body {
+            margin: 0;
+            background: #080d16;
+            color: #f1f5f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .table-container {
+            background: #111827;
+            border: 1px solid #263244;
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #263244;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #172033;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 13px;
+        }
+
+        .success {
+            color: #22c55e;
+            font-weight: bold;
+        }
+
+        .failed {
+            color: #ef4444;
+            font-weight: bold;
+        }
+
+        .denied {
+            color: #f97316;
+            font-weight: bold;
+        }
+
+        .details {
+            color: #94a3b8;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 25px;
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <a
+        href="{{ url_for('admin_users') }}"
+        class="back"
+    >
+        ← Gestión de usuarios
+    </a>
+
+    <h1>Audit Log</h1>
+
+    <div class="subtitle">
+        Registro de actividad y eventos de seguridad
+    </div>
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Usuario</th>
+                    <th>Acción</th>
+                    <th>Resultado</th>
+                    <th>IP</th>
+                    <th>Detalles</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for log in logs %}
+
+                <tr>
+
+                    <td>
+                        {{ log.id }}
+                    </td>
+
+                    <td>
+                        {{ log.timestamp }}
+                    </td>
+
+                    <td>
+                        {{ log.username or "UNKNOWN" }}
+                    </td>
+
+                    <td>
+                        {{ log.action }}
+                    </td>
+
+                    <td>
+
+                        {% if log.result in ["SUCCESS", "SECURE"] %}
+
+                            <span class="success">
+                                {{ log.result }}
+                            </span>
+
+                        {% elif log.result in ["FAILED", "COMPROMISED"] %}
+
+                            <span class="failed">
+                                {{ log.result }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="denied">
+                                {{ log.result }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ log.ip_address or "-" }}
+                    </td>
+
+                    <td class="details">
+                        {{ log.details or "-" }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+
+                    <td colspan="7">
+                        No hay eventos registrados.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="sl-shell">
+  <header class="sl-header"><div><div class="sl-eyebrow">STELLARLAB / MECÁNICA CELESTE</div><h1 class="sl-title">Simulación orbital</h1><p class="sl-subtitle">Simulación gravitatoria de la estrella y los planetas seleccionados.</p></div><a class="sl-button" href="{{ url_for('stellar.index') }}">← StellarLab</a></header>
+  <form class="sl-form" method="post" action="{{ url_for('stellar.orbita') }}">
+    <div class="sl-grid">
+      <article class="sl-card sl-span-4"><h2>Estrella</h2>
+        <label for="star_id">Sistema</label><select id="star_id" name="star_id">{% for id, star in stars %}<option value="{{ id }}" {% if id == selected_star_id %}selected{% endif %}>{{ star.nombre }}</option>{% endfor %}</select>
+      </article>
+      <article class="sl-card sl-span-4"><h2>Planetas</h2>
+        {% if planets %}{% for id, planet in planets %}<label class="sl-check"><input type="checkbox" name="planet_id" value="{{ id }}" {% if id in selected_planet_ids %}checked{% endif %}> {{ planet.nombre }} · {{ planet.distancia }} UA</label>{% endfor %}{% else %}<p class="sl-muted">No hay planetas creados. <a href="{{ url_for('stellar.planeta') }}">Crear uno</a>.</p>{% endif %}
+      </article>
+      <article class="sl-card sl-span-4"><h2>Integración</h2>
+        <label>Días simulados</label><input type="number" name="dias" min="0.001" step="any" value="365">
+        <label>Paso temporal (horas)</label><input type="number" name="paso_horas" min="0.01" step="any" value="6">
+        <button class="sl-button" type="submit">Ejecutar simulación</button>
+      </article>
+    </div>
+  </form>
+
+  {% if result %}
+  <section class="sl-grid">
+    <article class="sl-card sl-span-12"><h2>Resultado</h2><p class="sl-muted">{{ result.pasos }} pasos calculados durante {{ result.dias }} días. Las posiciones mostradas están expresadas en UA.</p>
+      <div class="sl-orbit-scene" id="orbit-scene"><div class="sl-star"></div>{% for planet in result.planetas %}<div class="sl-orbit" style="--orbit-size: {{ 90 + loop.index0 * 70 }}px"><div class="sl-planet"></div></div>{% endfor %}</div>
+    </article>
+    <article class="sl-card sl-span-12"><h2>Posiciones finales</h2><div class="sl-table-wrap"><table class="sl-table"><thead><tr><th>Cuerpo</th><th>X (UA)</th><th>Y (UA)</th><th>Vx (m/s)</th><th>Vy (m/s)</th></tr></thead><tbody>
+      <tr><td>{{ result.estrella.nombre }}</td><td>{{ '%.6f'|format(result.posiciones_finales[0][0] / 1.495978707e11) }}</td><td>{{ '%.6f'|format(result.posiciones_finales[0][1] / 1.495978707e11) }}</td><td>{{ '%.3e'|format(result.velocidades_finales[0][0]) }}</td><td>{{ '%.3e'|format(result.velocidades_finales[0][1]) }}</td></tr>
+      {% for planet in result.planetas %}{% set i = loop.index %}<tr><td>{{ planet.nombre }}</td><td>{{ '%.6f'|format(result.posiciones_finales[i][0] / 1.495978707e11) }}</td><td>{{ '%.6f'|format(result.posiciones_finales[i][1] / 1.495978707e11) }}</td><td>{{ '%.3e'|format(result.velocidades_finales[i][0]) }}</td><td>{{ '%.3e'|format(result.velocidades_finales[i][1]) }}</td></tr>{% endfor %}
+    </tbody></table></div></article>
+  </section>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Administración de usuarios</title>
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            background: #0b0f14;
+
+            color: #f8fafc;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+        }
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: 40px auto;
+
+            padding: 0 20px;
+
+        }
+
+        .header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 30px;
+
+        }
+
+        h1 {
+
+            margin: 0;
+
+        }
+
+        .back {
+
+            color: #94a3b8;
+
+            text-decoration: none;
+
+        }
+
+        .panel {
+
+            background: #111827;
+
+            border:
+                1px solid
+                rgba(148,163,184,0.2);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+        }
+
+        th,
+        td {
+
+            padding: 15px;
+
+            text-align: left;
+
+            border-bottom:
+                1px solid
+                rgba(148,163,184,0.1);
+
+        }
+
+        th {
+
+            color: #94a3b8;
+
+            font-size: 0.8rem;
+
+            text-transform: uppercase;
+
+        }
+
+        .role {
+
+            display: inline-block;
+
+            padding: 5px 9px;
+
+            border-radius: 6px;
+
+            font-size: 0.75rem;
+
+            font-weight: bold;
+
+        }
+
+        .admin {
+
+            background: rgba(239,68,68,0.15);
+
+            color: #fca5a5;
+
+        }
+
+        .viewer {
+
+            background: rgba(59,130,246,0.15);
+
+            color: #93c5fd;
+
+        }
+
+        .active {
+
+            color: #86efac;
+
+        }
+
+        .inactive {
+
+            color: #fca5a5;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+
+            <div>
+
+                <h1>
+                    User Administration
+                </h1>
+
+                <p>
+                    Registered SCADA users
+                </p>
+
+            </div>
+
+            <a
+                class="back"
+                href="/"
+            >
+                ← Volver
+            </a>
+
+        </div>
+
+
+        <div class="panel">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Usuario</th>
+
+                        <th>Rol</th>
+
+                        <th>Estado</th>
+
+                        <th>Creado</th>
+
+                        <th>Último acceso</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>
+                            {{ user.id }}
+                        </td>
+
+                        <td>
+                            {{ user.username }}
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="role
+                                {% if user.role == 'ADMIN' %}
+                                    admin
+                                {% else %}
+                                    viewer
+                                {% endif %}"
+                            >
+
+                                {{ user.role }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {% if user.active %}
+
+                                <span class="active">
+                                    ● Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="inactive">
+                                    ● Disabled
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ user.created_at }}
+                        </td>
+
+                        <td>
+                            {{ user.last_login or "Never" }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div>
+        <a href="{{ url_for('admin_audit') }}">
+            📋 Audit Log
+        </a>
+    </div>
+</body>
+
+</html>
