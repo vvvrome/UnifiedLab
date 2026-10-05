@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import json
-import sqlite3
-from pathlib import Path
+import os
+import mysql.connector
 
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
 
@@ -20,32 +20,56 @@ stellar_bp = Blueprint(
     static_url_path="/static",
 )
 
-DB_PATH = Path(__file__).resolve().parents[1] / "portal" / "stellar_lab.db"
+MYSQL_CONFIG = {
+    "host": os.environ.get("MYSQL_HOST", "127.0.0.1"),
+    "port": int(os.environ.get("MYSQL_PORT", "3306")),
+    "user": os.environ.get("MYSQL_USER", "unifiedlab"),
+    "password": os.environ.get("MYSQL_PASSWORD", ""),
+    "database": os.environ.get("MYSQL_DATABASE_STELLAR", "stellarlab"),
+}
+
+
+class DB:
+    def __init__(self):
+        self.conn = mysql.connector.connect(**MYSQL_CONFIG)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        if exc_type is None:
+            self.conn.commit()
+        else:
+            self.conn.rollback()
+        self.conn.close()
+
+    def execute(self, sql, params=()):
+        cur = self.conn.cursor(dictionary=True)
+        cur.execute(sql.replace("?", "%s"), params)
+        return cur
 
 
 def connect_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
+    return DB()
 
 
 def init_db():
     with connect_db() as conn:
         conn.execute(
             """CREATE TABLE IF NOT EXISTS stars (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                data TEXT NOT NULL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                data LONGTEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )"""
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"""
         )
         conn.execute(
             """CREATE TABLE IF NOT EXISTS planets (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                data TEXT NOT NULL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                data LONGTEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )"""
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"""
         )
 
 

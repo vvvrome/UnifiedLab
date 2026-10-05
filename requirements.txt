@@ -5,3 +5,4 @@ scipy
 matplotlib
 werkzeug
 PyYAML
+mysql-connector-python>=9.0

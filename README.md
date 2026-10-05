@@ -54,3 +54,8 @@ Crea primero una cuenta en el portal. Las apps heredadas pueden pedir su propia 
 4. Homogeneizar navegación, auditoría y permisos de los tres módulos.
 
 Las bases de datos incluidas son copias de la copia de seguridad recibida. Conserva el ZIP original sin modificar.
+
+
+## MySQL
+
+La versión actual puede usar MySQL para las bases de datos del portal, PhysicLab, DataCenter y StellarLab. Consulta `MYSQL_SETUP.md` y ejecuta `python migrar_sqlite_a_mysql.py` después de configurar el servidor MySQL.

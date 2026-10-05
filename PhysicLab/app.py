@@ -43,7 +43,8 @@ import io
 import base64
 import os
 import uuid
-import sqlite3
+import mysql.connector
+from mysql.connector import IntegrityError
 import json
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -60,14 +61,38 @@ app.config.update(
     SESSION_COOKIE_SECURE=os.environ.get("PHYSICLAB_COOKIE_SECURE", "0") == "1",
     PERMANENT_SESSION_LIFETIME=60 * 60 * 8,
 )
-AUTH_DB = os.environ.get("PHYSICLAB_AUTH_DB", os.path.join(os.path.dirname(__file__), "physiclab_users.db"))
-RESERVED_USERNAMES = {"admin", "administrator", "root"}
+MYSQL_CONFIG = {
+    "host": os.environ.get("MYSQL_HOST", "127.0.0.1"),
+    "port": int(os.environ.get("MYSQL_PORT", "3306")),
+    "user": os.environ.get("MYSQL_USER", "unifiedlab"),
+    "password": os.environ.get("MYSQL_PASSWORD", ""),
+    "database": os.environ.get("MYSQL_DATABASE_PHYSICLAB", "physiclab"),
+}
+
+
+class DB:
+    def __init__(self):
+        self.conn = mysql.connector.connect(**MYSQL_CONFIG)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        if exc_type is None:
+            self.conn.commit()
+        else:
+            self.conn.rollback()
+        self.conn.close()
+
+    def execute(self, sql, params=()):
+        cur = self.conn.cursor(dictionary=True)
+        cur.execute(sql.replace("?", "%s"), params)
+        return cur
 
 
 def get_auth_db():
-    conn = sqlite3.connect(AUTH_DB)
-    conn.row_factory = sqlite3.Row
-    return conn
+    return DB()
+RESERVED_USERNAMES = {"admin", "administrator", "root"}
 
 
 def log_operation(section: str, operation: str, inputs: dict, result: str):
@@ -88,19 +113,19 @@ def log_operation(section: str, operation: str, inputs: dict, result: str):
 def init_auth_db():
     with get_auth_db() as conn:
         conn.execute("""CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL COLLATE NOCASE UNIQUE,
-            password_hash TEXT NOT NULL,
-            role TEXT NOT NULL DEFAULT 'user',
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(40) NOT NULL UNIQUE,
+            password_hash VARCHAR(255) NOT NULL,
+            role VARCHAR(20) NOT NULL DEFAULT 'user',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )""")
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""")
         conn.execute("""CREATE TABLE IF NOT EXISTS history (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL COLLATE NOCASE,
-            section TEXT NOT NULL DEFAULT 'general',
-            result TEXT NOT NULL,
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(40) NOT NULL,
+            section VARCHAR(80) NOT NULL DEFAULT 'general',
+            result LONGTEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )""")
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""")
         # Los roles administrativos anteriores no se consideran fiables.
         # Solo la cuenta provisionada desde el entorno puede recibir el rol admin.
         conn.execute("UPDATE users SET role = 'user' WHERE role = 'admin'")
@@ -200,7 +225,7 @@ def register():
                     conn.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
                                  (username, generate_password_hash(password)))
                 return redirect(url_for("login", registered="1"))
-            except sqlite3.IntegrityError:
+            except IntegrityError:
                 error = "Ese nombre de usuario ya está registrado."
     return render_template("register.html", error=error)
 
@@ -474,7 +499,7 @@ def api_historial():
                 if requested_user:
                     rows = conn.execute(
                         "SELECT username, section, result, created_at FROM history "
-                        "WHERE username = ? COLLATE NOCASE ORDER BY id DESC LIMIT 200",
+                        "WHERE username = ? ORDER BY id DESC LIMIT 200",
                         (requested_user,),
                     ).fetchall()
                 else:
@@ -486,13 +511,13 @@ def api_historial():
                 # Un usuario normal solo puede consultar su propio historial.
                 rows = conn.execute(
                     "SELECT username, section, result, created_at FROM history "
-                    "WHERE username = ? COLLATE NOCASE ORDER BY id DESC LIMIT 100",
+                    "WHERE username = ? ORDER BY id DESC LIMIT 100",
                     (g.current_user,),
                 ).fetchall()
 
             return jsonify({"history": [dict(row) for row in rows]})
     except Exception:
-        app.logger.exception("Error al acceder al historial SQLite")
+        app.logger.exception("Error al acceder al historial MySQL")
         return jsonify({"error": "No se ha podido acceder al historial."}), 503
 
 

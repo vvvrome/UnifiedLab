@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import os
-import sqlite3
+import mysql.connector
+from mysql.connector import IntegrityError
 from pathlib import Path
 from functools import wraps
 from urllib.parse import urlparse
@@ -12,7 +13,38 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from Quimica.routes import stellar_bp
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "portal_users.db"
+MYSQL_CONFIG = {
+    "host": os.environ.get("MYSQL_HOST", "127.0.0.1"),
+    "port": int(os.environ.get("MYSQL_PORT", "3306")),
+    "user": os.environ.get("MYSQL_USER", "unifiedlab"),
+    "password": os.environ.get("MYSQL_PASSWORD", ""),
+    "database": os.environ.get("MYSQL_DATABASE_PORTAL", "unifiedlab"),
+}
+
+
+class DB:
+    def __init__(self):
+        self.conn = mysql.connector.connect(**MYSQL_CONFIG)
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        if exc_type is None:
+            self.conn.commit()
+        else:
+            self.conn.rollback()
+        self.conn.close()
+
+    def execute(self, sql, params=()):
+        sql = sql.replace("?", "%s")
+        cur = self.conn.cursor(dictionary=True)
+        cur.execute(sql, params)
+        return cur
+
+
+def connect_db():
+    return DB()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("UNIFIEDLAB_SECRET_KEY") or os.urandom(32)
@@ -24,20 +56,15 @@ app.config.update(
 )
 
 
-def connect_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
-
 
 def init_db():
     with connect_db() as conn:
         conn.execute("""CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL COLLATE NOCASE UNIQUE,
-            password_hash TEXT NOT NULL,
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(40) NOT NULL UNIQUE,
+            password_hash VARCHAR(255) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )""")
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""")
 
 
 def login_required(view):
@@ -76,7 +103,7 @@ def register():
                                  (username, generate_password_hash(password)))
                 flash("Cuenta creada. Ya puedes iniciar sesión.", "success")
                 return redirect(url_for("login"))
-            except sqlite3.IntegrityError:
+            except IntegrityError:
                 flash("Ese nombre de usuario ya existe.", "error")
     return render_template("auth.html", mode="register")
 

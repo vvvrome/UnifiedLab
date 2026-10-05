@@ -1,44 +1,60 @@
-import sqlite3
-from pathlib import Path
-from datetime import datetime
+import os
+import mysql.connector
 
 
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "users.db"
+MYSQL_CONFIG = {
+    "host": os.environ.get("MYSQL_HOST", "127.0.0.1"),
+    "port": int(os.environ.get("MYSQL_PORT", "3306")),
+    "user": os.environ.get("MYSQL_USER", "unifiedlab"),
+    "password": os.environ.get("MYSQL_PASSWORD", ""),
+    "database": os.environ.get(
+        "MYSQL_DATABASE_DATACENTER",
+        "datacenter"
+    ),
+}
 
 
 def get_connection():
-    connection = sqlite3.connect(DB_PATH)
-    connection.row_factory = sqlite3.Row
-    return connection
+    return mysql.connector.connect(**MYSQL_CONFIG)
 
 
 def init_audit_database():
 
     connection = get_connection()
 
-    connection.execute("""
-        CREATE TABLE IF NOT EXISTS audit_log (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+    try:
 
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        cursor = connection.cursor()
 
-            username TEXT,
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS audit_log (
 
-            action TEXT NOT NULL,
+                id INT AUTO_INCREMENT PRIMARY KEY,
 
-            result TEXT NOT NULL,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-            ip_address TEXT,
+                username VARCHAR(100),
 
-            user_agent TEXT,
+                action VARCHAR(100) NOT NULL,
 
-            details TEXT
-        )
-    """)
+                result VARCHAR(100) NOT NULL,
 
-    connection.commit()
-    connection.close()
+                ip_address VARCHAR(45),
+
+                user_agent TEXT,
+
+                details TEXT
+
+            ) ENGINE=InnoDB
+              DEFAULT CHARSET=utf8mb4
+              COLLATE=utf8mb4_unicode_ci
+        """)
+
+        connection.commit()
+
+    finally:
+
+        connection.close()
 
 
 def log_event(
@@ -52,54 +68,69 @@ def log_event(
 
     connection = get_connection()
 
-    connection.execute(
-        """
-        INSERT INTO audit_log (
-            username,
-            action,
-            result,
-            ip_address,
-            user_agent,
-            details
-        )
-        VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (
-            username,
-            action,
-            result,
-            ip_address,
-            user_agent,
-            details
-        )
-    )
+    try:
 
-    connection.commit()
-    connection.close()
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO audit_log (
+                username,
+                action,
+                result,
+                ip_address,
+                user_agent,
+                details
+            )
+            VALUES (%s, %s, %s, %s, %s, %s)
+            """,
+            (
+                username,
+                action,
+                result,
+                ip_address,
+                user_agent,
+                details
+            )
+        )
+
+        connection.commit()
+
+    finally:
+
+        connection.close()
 
 
 def get_audit_logs(limit=200):
 
     connection = get_connection()
 
-    logs = connection.execute(
-        """
-        SELECT
-            id,
-            timestamp,
-            username,
-            action,
-            result,
-            ip_address,
-            user_agent,
-            details
-        FROM audit_log
-        ORDER BY id DESC
-        LIMIT ?
-        """,
-        (limit,)
-    ).fetchall()
+    try:
 
-    connection.close()
+        cursor = connection.cursor(dictionary=True)
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                timestamp,
+                username,
+                action,
+                result,
+                ip_address,
+                user_agent,
+                details
+            FROM audit_log
+            ORDER BY id DESC
+            LIMIT %s
+            """,
+            (limit,)
+        )
+
+        logs = cursor.fetchall()
+
+    finally:
+
+        connection.close()
 
     return [dict(log) for log in logs]
