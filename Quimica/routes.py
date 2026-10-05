@@ -5,6 +5,8 @@ import os
 import mysql.connector
 
 from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+from werkzeug.security import check_password_hash, generate_password_hash
+from mysql.connector import IntegrityError
 
 from .orbital_simulator import OrbitalSimulator
 from .planet_model import Planet
@@ -64,6 +66,15 @@ def init_db():
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"""
         )
         conn.execute(
+            """CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(40) NOT NULL UNIQUE,
+                password_hash VARCHAR(255) NOT NULL,
+                role VARCHAR(20) NOT NULL DEFAULT 'user',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci"""
+        )
+        conn.execute(
             """CREATE TABLE IF NOT EXISTS planets (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 user_id INT NOT NULL,
@@ -74,12 +85,28 @@ def init_db():
 
 
 def current_user_id():
-    return session.get("user_id")
+    return session.get("stellar_user_id")
 
 
 def login_guard():
-    if not current_user_id():
+    # UnifiedLab debe estar autenticado primero. StellarLab añade su propia
+    # credencial después, aunque ambos viven en el mismo proceso Flask.
+    if not session.get("user_id"):
         return redirect(url_for("login", next=request.path))
+
+    stellar_user_id = session.get("stellar_user_id")
+    if not stellar_user_id:
+        return redirect(url_for("stellar.login", next=request.path))
+
+    with connect_db() as conn:
+        user = conn.execute(
+            "SELECT id, username, role FROM users WHERE id = ?",
+            (stellar_user_id,),
+        ).fetchone()
+    if not user or user["username"].casefold() != session.get("username", "").casefold():
+        session.pop("stellar_user_id", None)
+        session.pop("stellar_username", None)
+        return redirect(url_for("stellar.login", next=request.path))
     return None
 
 
@@ -88,7 +115,74 @@ init_db()
 
 @stellar_bp.before_request
 def require_login():
+    if request.endpoint in {"stellar.login", "stellar.register", "stellar.static"}:
+        return None
     return login_guard()
+
+
+@stellar_bp.route("/login", methods=["GET", "POST"])
+def login():
+    # Esta pantalla solo aparece después del login principal de UnifiedLab.
+    if not session.get("user_id"):
+        return redirect(url_for("login", next=request.path))
+
+    portal_username = session.get("username", "")
+    error = None
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        if username.casefold() != portal_username.casefold():
+            error = "Debes utilizar el mismo usuario que has autenticado en UnifiedLab."
+        else:
+            with connect_db() as conn:
+                user = conn.execute(
+                    "SELECT * FROM users WHERE username = ?", (username,)
+                ).fetchone()
+            if user and check_password_hash(user["password_hash"], password):
+                session["stellar_user_id"] = user["id"]
+                session["stellar_username"] = user["username"]
+                destination = request.args.get("next", "")
+                if not (destination.startswith("/stellar") and not destination.startswith("//")):
+                    destination = url_for("stellar.index")
+                return redirect(destination)
+            error = "Usuario o contraseña de StellarLab incorrectos."
+
+    return render_template("stellar_login.html", error=error, username=portal_username)
+
+
+@stellar_bp.route("/register", methods=["GET", "POST"])
+def register():
+    if not session.get("user_id"):
+        return redirect(url_for("login", next=request.path))
+
+    username = session.get("username", "")
+    error = None
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        confirm = request.form.get("password_confirm", "")
+        if len(password) < 10:
+            error = "La contraseña debe tener al menos 10 caracteres."
+        elif password != confirm:
+            error = "Las contraseñas no coinciden."
+        else:
+            try:
+                with connect_db() as conn:
+                    conn.execute(
+                        "INSERT INTO users (username, password_hash) VALUES (?, ?)",
+                        (username, generate_password_hash(password)),
+                    )
+                return redirect(url_for("stellar.login"))
+            except IntegrityError:
+                error = "Ya existe una credencial de StellarLab para este usuario."
+
+    return render_template("stellar_register.html", error=error, username=username)
+
+
+@stellar_bp.post("/logout")
+def logout():
+    session.pop("stellar_user_id", None)
+    session.pop("stellar_username", None)
+    return redirect(url_for("stellar.login"))
 
 
 @stellar_bp.get("/")
